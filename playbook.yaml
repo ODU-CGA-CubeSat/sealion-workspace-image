@@ -139,7 +139,7 @@
   hosts: localhost
   connection: local
   tasks:
-  - name: Apt install pulseaudio-utils with Apt
+  - name: install pulseaudio-utils with Apt
     apt:
       name: pulseaudio-utils
       update_cache: yes
@@ -149,6 +149,23 @@
     shell: echo "default-server = unix:/run/user/1000/pulse/native" >> /etc/pulse/client.conf
   - name: Prevent the use of shared memory
     shell: echo "enable-shm = false" >> /etc/pulse/client.conf
+  - name: install netcat with Apt
+    apt:
+      name: netcat
+      update_cache: yes
+  - name: install ALSA with Apt
+    apt:
+      name: alsa
+      update_cache: yes
+  - name: configure ALSA to work with (Windows) pulseaudio server
+    copy:
+      src: /home/kasm-default-profile/install_files/asound.conf
+      dest: /etc/asound.conf
+      remote_src: yes
+  - name: install libasound2-plugins with Apt
+    apt:
+      name: libasound2-plugins
+      update_cache: yes
 
 -
   # install OpenJDK 11

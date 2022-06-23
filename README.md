@@ -39,6 +39,16 @@ Notes:
 - It is recommended MacOS and Windows users download [Docker Desktop](https://www.docker.com/products/docker-desktop/)
 - It is recommended to allocate at least 16gb under docker image size in your docker settings (See https://stackoverflow.com/a/65333634/12076663)
 
+## WSL2 audio configuration
+
+WSL2 users will need to add the following line to `~/.bashrc` in the kasm workspace:
+
+```bash
+export PULSE_SERVER=tcp:$(grep nameserver /etc/resolv.conf | awk '{ print $2 }')
+```
+
+See http://sites.music.columbia.edu/brad/osx-windows-new-RTcmixes/wsl2-RTcmix.html for more details.
+
 ## How to Use this Repo
 
 1. Clone this repo and change directory into `kasm-sealion-workspace`.
