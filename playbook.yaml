@@ -449,6 +449,7 @@
     - install_python_packages
     - install_avr_build_tools
     - install_gs_avr_toolchain
+    - install_doctools
 
   tasks:
   - name: Update OS to point python to python3
