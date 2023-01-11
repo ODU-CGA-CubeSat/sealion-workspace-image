@@ -593,6 +593,8 @@
     apt:
       deb: /home/kasm-default-profile/install_files/jabref_5.6-1_amd64.deb
       update_cache: yes
+  - name: install asciidoctor as ruby gem
+    shell: gem install asciidoctor
   - name: install asciidoctor-bibtex as ruby gem
     shell: gem install asciidoctor-bibtex
   - name: install asciidoctor-diagram as ruby gem
