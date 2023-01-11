@@ -90,6 +90,22 @@
       executable: /bin/bash
 
 -
+  # Install OpenSSL development package
+  hosts: localhost
+  connection: local
+  gather_facts: yes
+  tags:
+    - install_avr_build_tools
+    - install_doctools
+    - install_utilities
+
+  tasks:
+  - name: Install libssl-dev
+    apt:
+      name: libssl-dev
+      update_cache: yes
+
+-
   # Install gs-avr-toolchain
   hosts: localhost
   connection: local
@@ -519,10 +535,6 @@
   - name: Install gdb-multiarch with Apt
     apt:
       name: gdb-multiarch
-      update_cache: yes
-  - name: Install libssl-dev
-    apt:
-      name: libssl-dev
       update_cache: yes
   - name: Extract cmake source files
     unarchive:
