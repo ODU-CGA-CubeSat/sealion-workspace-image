@@ -245,6 +245,7 @@
   tags:
   - install_openjdk
   - install_eclipse
+  - install_doctools
 
   tasks:
   - name: Rejoin files for OpenJDK 11 tarball
