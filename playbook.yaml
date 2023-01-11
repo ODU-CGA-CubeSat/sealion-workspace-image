@@ -385,10 +385,6 @@
     apt:
       name: libz-dev
       update_cache: yes
-  - name: Install libssl-dev
-    apt:
-      name: libssl-dev
-      update_cache: yes
   - name: Install install-info
     apt:
       name: install-info
