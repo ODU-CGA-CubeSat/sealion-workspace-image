@@ -17,9 +17,14 @@ services:
       - type: bind
         source: ./kasm_user
         target: /home/kasm-user
+      - /run/udev:/run/udev:ro
+      - /dev:/dev
 #      - type: bind
 #        source: /run/user/1000/pulse/
 #        target: /run/user/1000/pulse/
+    device_cgroup_rules:
+      - "c 188:* rmw"
+    privileged: true
     security_opt:
       - seccomp=unconfined
 ...
