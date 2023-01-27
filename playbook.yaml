@@ -486,6 +486,9 @@
         - notebook
         - voila
         - pint
+        - toml
+        - requests
+        - argparse
         - setuptools
         - bikeshed
         - rdflib==6.2.0
