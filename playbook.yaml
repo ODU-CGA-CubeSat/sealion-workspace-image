@@ -727,6 +727,21 @@
       chdir: /home/kasm-default-profile/install_files/gpredict-2.2.1/
       executable: /bin/bash
 
+-
+  # install KiCad
+  hosts: localhost
+  connection: local
+  tags: install_kicad
+
+  tasks:
+  - name: Add PPA repository for KiCad 6.0.11
+    shell: add-apt-repository ppa:kicad/kicad-6.0-releases
+  - name: install KiCad with Apt
+    apt:
+      name: kicad
+      update_cache: yes
+      install_recommends: yes
+
 #-
 #  # install GNU Radio Software with Apt
 #  hosts: localhost
