@@ -495,6 +495,7 @@
         - linkml==1.3.14
         - linkml-owl==0.2.4
         - jinja2-cli==0.8.2
+        - black
   - name: Install fprime (v3.1.1) python packages & dependencies
     pip:
       requirements: https://raw.githubusercontent.com/nasa/fprime/v3.1.1/requirements.txt
@@ -776,6 +777,7 @@
         - username: "dev"
           visual_studio_code_extensions:
             - ms-python.python
+            - ms-python.black-formatter
             - jebbs.plantuml
             - James-Yu.latex-workshop
           visual_studio_code_settings_overwrite: yes
@@ -787,6 +789,10 @@
             "plantuml.exportFormat": "png",
             "plantuml.jar": "/usr/local/bin/plantuml.jar",
             "plantuml.render": "Local",
+            "[python]": {
+              "editor.defaultFormatter": "ms-python.black-formatter",
+              "editor.formatOnSave": true
+            },
             "terminal.integrated.profiles.linux": {
               "bash (login)": {
                 "path": "bash",
