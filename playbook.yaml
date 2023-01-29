@@ -374,7 +374,9 @@
   hosts: localhost
   connection: local
   gather_facts: yes
-  tags: install_utilities
+  tags:
+    - install_utilities
+    - configure_python_dev_tools
 
   vars:
     git_version: "2.38.1"
@@ -469,6 +471,7 @@
     - install_avr_build_tools
     - install_gs_avr_toolchain
     - install_doctools
+    - configure_python_dev_tools
 
   tasks:
   - name: Update OS to point python to python3
@@ -744,6 +747,8 @@
   # install sudo for the vs-code role below
   hosts: localhost
   connection: local
+  tags: configure_python_dev_tools
+
   tasks:
   - name: Install Sudo
     apt:
@@ -759,6 +764,8 @@
 # add dev user to give vs code somewhere to install extensions
   hosts: localhost
   connection: local
+  tags: configure_python_dev_tools
+
   tasks:
   - name: Add dev user
     user:
@@ -769,6 +776,8 @@
   # install the remainder of the tools
   hosts: localhost
   connection: local
+  tags: configure_python_dev_tools
+
   environment:
     DONT_PROMPT_WSL_INSTALL: 1
   roles:
@@ -806,6 +815,8 @@
   # Copy VS Code changes to kasm-default-profile and lean up (remove) dev user now that vs code is installed
   hosts: localhost
   connection: local
+  tags: configure_python_dev_tools
+
   tasks:
   - name: Copy VS Code changes to kasm-default-profile
     shell:
