@@ -727,17 +727,17 @@
       chdir: /home/kasm-default-profile/install_files/gpredict-2.2.1/
       executable: /bin/bash
 
-#-
-#  # install GNU Radio Software with Apt
-#  hosts: localhost
-#  connection: local
-#  tasks:
-#  - name: Add PPA repository for GNU Radio v3.8
-#    shell: add-apt-repository ppa:gnuradio/gnuradio-releases-3.8
-#  - name: Apt install GNU Radio v3.8 with Apt
-#    apt:
-#      name: gnuradio
-#      update_cache: yes
+-
+  # install GNU Radio Software with Apt
+  hosts: localhost
+  connection: local
+  tasks:
+  - name: Add PPA repository for GNU Radio v3.8
+    shell: add-apt-repository ppa:gnuradio/gnuradio-releases-3.8
+  - name: Apt install GNU Radio v3.8 with Apt
+    apt:
+      name: gnuradio
+      update_cache: yes
 
 -
   # install sudo for the vs-code role below
