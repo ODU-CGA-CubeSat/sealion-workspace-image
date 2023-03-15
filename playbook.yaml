@@ -739,6 +739,20 @@
       name: gnuradio
       update_cache: yes
 
+  # install KiCad
+  hosts: localhost
+  connection: local
+  tags: install_kicad
+
+  tasks:
+  - name: Add PPA repository for KiCad 7.0
+    shell: add-apt-repository ppa:kicad/kicad-7.0-releases
+  - name: install KiCad with Apt
+    apt:
+      name: kicad
+      update_cache: yes
+      install_recommends: yes
+
 -
   # install sudo for the vs-code role below
   hosts: localhost
