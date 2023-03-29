@@ -490,6 +490,9 @@
         - linkml==1.5.6
         - linkml-owl==0.2.4
         - jinja2-cli==0.8.2
+        - pandas
+        - seaborn
+        - black
   - name: Install fprime {{ fprime_version }} python packages & dependencies
     pip:
       requirements: https://raw.githubusercontent.com/nasa/fprime/v{{ fprime_version }}/requirements.txt
