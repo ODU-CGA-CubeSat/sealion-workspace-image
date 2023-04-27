@@ -235,6 +235,27 @@
     shell: echo "[Desktop Entry]\nName=Pharo\nGenericName=Pharo\nExec=/home/kasm-user/pharolauncher/pharo-launcher\nIcon=/home/kasm-user/pharolauncher/icons/pharo-launcher.png\nTerminal=false\nType=Application\nStartupNotify=false\nCategories=Application;Development;" > ~/.local/share/applications/pharo.desktop
 
 -
+  # install 42 (Spacecraft simulation)
+  hosts: localhost
+  connection: local
+  tags: install_42
+
+  tasks:
+  - name: Join parts of 42 zip file
+    shell: cat /home/kasm-default-profile/install_files/42_20230210.zip.part* > /home/kasm-default-profile/install_files/42_20230210.zip
+  - name: Unzip 42
+    unarchive:
+      src: /home/kasm-default-profile/install_files/42_20230210.zip
+      dest: /home/kasm-default-profile/install_files
+      remote_src: yes
+      creates: /home/kasm-default-profile/install_files/42/README.md
+  - name: Build 42
+    shell:
+      cmd: ./configure && make > /tmp/42_build_output.txt 2>&1 && make install
+      chdir: /home/kasm-default-profile/install_files/42
+      executable: /bin/bash
+
+-
   # install GMAT
   hosts: localhost
   connection: local
