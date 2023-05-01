@@ -62,6 +62,7 @@
   - install_cross_compile_toolchain
   - install_avr_build_tools
   - install_gs_avr_toolchain
+  - install_42
 
   tasks:
   - name: Install build-essential
