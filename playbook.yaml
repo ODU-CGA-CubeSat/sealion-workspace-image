@@ -267,7 +267,7 @@
       creates: /home/kasm-default-profile/install_files/42/README.md
   - name: Build 42
     shell:
-      cmd: make 42 > /tmp/42_build_output.txt 2>&1 && make install
+      cmd: make 42 > /tmp/42_build_output.txt 2>&1
       chdir: /home/kasm-default-profile/install_files/42
       executable: /bin/bash
 
