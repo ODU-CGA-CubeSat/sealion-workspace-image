@@ -748,6 +748,18 @@
       dest: /home/kasm-default-profile/install_files/
       remote_src: yes
       creates: /home/kasm-default-profile/install_files/gnuradio-3.8.5.0/README.md
+  - name: Create build directory for Volk
+    shell: mkdir -p /home/kasm-default-profile/install_files/gnuradio-3.8.5.0/volk/build
+  - name: Configure Makefile for Volk using CMake
+    shell:
+      cmd: cmake -DCMAKE_BUILD_TYPE=Release -DPYTHON_EXECUTABLE=/usr/bin/python3 ../
+      chdir: /home/kasm-default-profile/install_files/gnuradio-3.8.5.0/volk/build
+      executable: /bin/bash
+  - name: Build Volk
+    shell:
+      cmd: make && make test && make install && ldconfig
+      chdir: /home/kasm-default-profile/install_files/gnuradio-3.8.5.0/volk/build
+      executable: /bin/bash
   - name: Create build directory for gnuradio (v3.8.5)
     shell: mkdir -p /home/kasm-default-profile/install_files/gnuradio-3.8.5.0/build
   - name: Configure Makefile for gnuradio (v3.8.5) using CMake
