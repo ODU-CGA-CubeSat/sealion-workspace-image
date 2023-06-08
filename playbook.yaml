@@ -384,6 +384,10 @@
     keychain_version_expected: "{{ keychain_version }}.."
 
   tasks:
+  - name: Install python2
+    apt:
+      name: python2
+      update_cache: yes
   - name: Install dh-autoreconf
     apt:
       name: dh-autoreconf
