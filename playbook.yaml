@@ -736,12 +736,24 @@
   tags: install_gnuradio
 
   tasks:
-  - name: Add PPA repository for GNU Radio v3.8
-    shell: add-apt-repository ppa:gnuradio/gnuradio-releases-3.8
-  - name: Apt install GNU Radio v3.8 with Apt
-    apt:
-      name: gnuradio
-      update_cache: yes
+  - name: Extract gnuradio (v3.8.5) source tarball
+    unarchive:
+      src: /home/kasm-default-profile/install_files/gnuradio-3.8.5.0-with-volk-2.5.0.tar.gz
+      dest: /home/kasm-default-profile/install_files/
+      remote_src: yes
+      creates: /home/kasm-default-profile/install_files/gnuradio-3.8.5.0/README.md
+  - name: Create build directory for gnuradio (v3.8.5)
+    shell: mkdir -p /home/kasm-default-profile/install_files/gnuradio-3.8.5.0/build
+  - name: Configure Makefile for gnuradio (v3.8.5) using CMake
+    shell:
+      cmd: cmake -DCMAKE_BUILD_TYPE=Release -DPYTHON_EXECUTABLE=/usr/bin/python3 ../
+      chdir: /home/kasm-default-profile/install_files/gnuradio-3.8.5.0/build
+      executable: /bin/bash
+  - name: Build gnuradio (v3.8.5)
+    shell:
+      cmd: make test && make install > /tmp/gnuradio_build_output.txt 2>&1 && ldconfig
+      chdir: /home/kasm-default-profile/install_files/gnuradio-3.8.5.0/build
+      executable: /bin/bash
   - name: Extract gr-satellites (v5.3.0) source tarball
     unarchive:
       src: /home/kasm-default-profile/install_files/gr-satellites-v5.3.0.tar.gz
