@@ -757,7 +757,7 @@
       executable: /bin/bash
   - name: Build gnuradio (v3.8.5)
     shell:
-      cmd: make test && make install > /tmp/gnuradio_build_output.txt 2>&1 && ldconfig
+      cmd: make -j3 && make test && make install > /tmp/gnuradio_build_output.txt 2>&1 && ldconfig
       chdir: /home/kasm-default-profile/install_files/gnuradio-3.8.5.0/build
       executable: /bin/bash
   - name: Extract gr-satellites (v5.3.0) source tarball
