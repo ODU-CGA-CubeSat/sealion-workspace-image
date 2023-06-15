@@ -750,13 +750,18 @@
       update_cache: yes
 
 -
-  # install GNU Radio Software with Apt
+  # install GNU Radio Software
   hosts: localhost
   connection: local
   tasks:
+  - name: install gnuradio dependencies # as per https://wiki.gnuradio.org/index.php?title=UbuntuInstall#Focal_Fossa_(20.04)_through_Kinetic_Kudu_(22.10)
+    apt:
+      name: g++, libboost-all-dev, libgmp-dev, swig, python3-numpy, python3-mako, python3-sphinx, python3-lxml, doxygen, libfftw3-dev, libsdl1.2-dev, libgsl-dev, libqwt-qt5-dev, libqt5opengl5-dev, python3-pyqt5, liblog4cpp5-dev, libzmq3-dev, python3-yaml, python3-click, python3-click-plugins, python3-zmq, python3-scipy, python3-gi, python3-gi-cairo, gir1.2-gtk-3.0, libcodec2-dev, libgsm1-dev, libusb-1.0-0, libusb-1.0-0-dev, libudev-dev
+      update_cache: yes
+      install_recommends: yes
   - name: Add PPA repository for GNU Radio v3.8
     shell: add-apt-repository ppa:gnuradio/gnuradio-releases-3.8
-  - name: Apt install GNU Radio v3.8 with Apt
+  - name: Install GNU Radio v3.8 with Apt
     apt:
       name: gnuradio
       update_cache: yes
