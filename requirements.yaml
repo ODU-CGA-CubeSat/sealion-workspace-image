@@ -4,5 +4,5 @@
 - grzegorznowak.nvm_node              # https://galaxy.ansible.com/grzegorznowak/nvm_node
 - andrewrothstein.pandoc              # https://galaxy.ansible.com/andrewrothstein/pandoc
 - webarchitect609.google_chrome       # https://galaxy.ansible.com/webarchitect609/google_chrome
-- gantsign.visual-studio-code         # https://galaxy.ansible.com/gantsign/visual-studio-code
+- gantsign.gotmax23.vscodium          # https://galaxy.ansible.com/gantsign/visual-studio-cod://galaxy.ansible.com/gotmax23/vscodium
 ...
