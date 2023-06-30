@@ -118,6 +118,10 @@
       update_cache: yes
   - name: Create symbolic link for libmpfr.so.4
     shell: ln -srv /usr/lib/x86_64-linux-gnu/libmpfr.so.6 /usr/lib/x86_64-linux-gnu/libmpfr.so.4
+  - name: Install unzip with apt
+    apt:
+      name: unzip
+      update_cache: yes
   - name: Install gs-avr-toolchain
     shell:
       cmd: /home/kasm-default-profile/install_files/avr_toolchain/gs-avr32-toolchain-3.4.2_gs1/install-avr32.sh
