@@ -112,9 +112,9 @@
   tags: install_gs_avr_toolchain
 
   tasks:
-  - name: Install libmpfr-dev v4.0.2-1 from deb
+  - name: Install libmpfr6 with apt
     apt:
-      deb: /home/kasm-default-profile/install_files/libmpfr-dev_4.0.2-1_amd64.deb
+      name: libmpfr6
       update_cache: yes
   - name: Create symbolic link for libmpfr.so.4
     shell: ln -srv /usr/lib/x86_64-linux-gnu/libmpfr.so.6 /usr/lib/x86_64-linux-gnu/libmpfr.so.4
