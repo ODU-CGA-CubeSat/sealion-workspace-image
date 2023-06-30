@@ -161,19 +161,19 @@
   - name: Create symlink for libpython3.6m.so.1.0
     shell: ln -srv /usr/lib/x86_64-linux-gnu/libpython3.8.so.1.0 /usr/lib/x86_64-linux-gnu/libpython3.6m.so.1.0
   - name: Join parts of GMAT tarball
-    shell: cat /home/kasm-default-profile/install_files/gmat-ubuntu-x64-R2020a.tar.gz.part* > /home/kasm-default-profile/gmat-ubuntu-x64-R2020a.tar.gz
+    shell: cat /home/kasm-default-profile/install_files/gmat-ubuntu-x64-R2022a.tar.gz.part* > /home/kasm-default-profile/gmat-ubuntu-x64-R2022a.tar.gz
   - name: Extract GMAT tarball to /opt
     unarchive:
-      src: /home/kasm-default-profile/gmat-ubuntu-x64-R2020a.tar.gz
+      src: /home/kasm-default-profile/gmat-ubuntu-x64-R2022a.tar.gz
       dest: /opt
       remote_src: yes
-      creates: /opt/GMAT/R2020a/README.txt
+      creates: /opt/GMAT/R2022a/README.txt
   - name: Delete GMAT tarball
-    shell: rm /home/kasm-default-profile/gmat-ubuntu-x64-R2020a.tar.gz
+    shell: rm /home/kasm-default-profile/gmat-ubuntu-x64-R2022a.tar.gz
   - name: Create local application folder
     shell: mkdir -p /home/kasm-default-profile/.local/share/applications/
   - name: Configure GMAT desktop shortcut
-    shell: echo "[Desktop Entry]\nName=GMAT\nGenericName=GMAT\nExec=/opt/GMAT/R2020a/bin/GMAT_Beta\nIcon=/opt/GMAT/R2020a/data/graphics/icons/GMATLogo.png\nTerminal=false\nType=Application\nStartupNotify=false\nCategories=Application;Education;" > ~/.local/share/applications/gmat.desktop
+    shell: echo "[Desktop Entry]\nName=GMAT\nGenericName=GMAT\nExec=/opt/GMAT/R2022a/bin/GMAT_Beta\nIcon=/opt/GMAT/R2022a/data/graphics/icons/GMATLogo.png\nTerminal=false\nType=Application\nStartupNotify=false\nCategories=Application;Education;" > ~/.local/share/applications/gmat.desktop
 
 -
   # install Octave
