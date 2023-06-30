@@ -6,7 +6,7 @@ This repo provides an immutable infrastructure as code (iiac) workspace for syst
 Base image currently usest the [Ansible based template for KASM Ubuntu Focal Images](https://github.com/j-simmons-phd/kasm-core-focal-template) template provided by @j-simmons-phd.  The workspace is configured with the following software:
 
 - Utilities
-    - git v2.38.1 with @capsulecorplab .gitconfig
+    - git v2.41.0 with @capsulecorplab .gitconfig
     - [Keychain](https://www.funtoo.org/Keychain) v2.8.5
     - Vim (pre-installed) with @capsulecorplab [vimrc](https://gist.github.com/capsulecorplab/495058e7a57ed8adaed3c40c80d09739#file-vimrc)
 - Artifact Generators
@@ -23,7 +23,6 @@ Base image currently usest the [Ansible based template for KASM Ubuntu Focal Ima
     - gdb-multiarch
     - build-essential
     - [cmake v3.2](http://www.cmake.org/files/v3.2)
-- [git lfs](https://git-lfs.github.com/)
 - [Keychain](https://www.funtoo.org/Keychain)
 - Chrome
 - Eclipse IDE for Embedded C/C++ (2019-03 release)
@@ -38,7 +37,7 @@ Base image currently usest the [Ansible based template for KASM Ubuntu Focal Ima
     - Juptyer Notebook
     - Voila
     - Pint
-- Python 3.8.x (part of the image template) with the following packages (not part of the image template)
+- Python 3.10 (part of the image template) with the following packages (not part of the image template)
     - pip
     - [fprime-tools](https://github.com/fprime-community/fprime-tools)
     - [fprime-gds](https://github.com/fprime-community/fprime-gds)
