@@ -156,10 +156,8 @@
   tasks:
   - name: Install GMAT dependencies with Apt
     apt:
-      name: libopengl0, libpython3.8
+      name: libopengl0
       update_cache: yes
-  - name: Create symlink for libpython3.6m.so.1.0
-    shell: ln -srv /usr/lib/x86_64-linux-gnu/libpython3.8.so.1.0 /usr/lib/x86_64-linux-gnu/libpython3.6m.so.1.0
   - name: Join parts of GMAT tarball
     shell: cat /home/kasm-default-profile/install_files/gmat-ubuntu-x64-R2022a.tar.gz.part* > /home/kasm-default-profile/gmat-ubuntu-x64-R2022a.tar.gz
   - name: Extract GMAT tarball to /opt
