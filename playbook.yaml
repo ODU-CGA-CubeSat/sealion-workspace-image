@@ -186,10 +186,6 @@
     apt:
       name: octave-doc
       update_cache: yes
-  - name: Install octave-htmldoc with Apt
-    apt:
-      name: octave-htmldoc
-      update_cache: yes
   - name: Install liboctave-dev with Apt
     apt:
       name: liboctave-dev
