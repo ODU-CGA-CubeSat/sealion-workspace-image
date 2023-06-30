@@ -186,10 +186,6 @@
     apt:
       name: octave-doc
       update_cache: yes
-  - name: Install octave-info with Apt
-    apt:
-      name: octave-info
-      update_cache: yes
   - name: Install octave-htmldoc with Apt
     apt:
       name: octave-htmldoc
