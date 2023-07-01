@@ -518,28 +518,80 @@
     shell: rm -rf /home/kasm-default-profile/cmake-3.23.1/
 
 -
-  # install NodeJs
+  # Install NodeJS Tools
   hosts: localhost
   connection: local
   gather_facts: yes
   tags:
-    - install_node
-    - install_doctools
+  - install_node
+  - install_doctools
 
-  tasks:
-  - name: Download node source setup
-    get_url:
-      url: https://deb.nodesource.com/setup_17.x
-      dest: /root/nodesource_setup.sh
-      mode: 0700
-  - name: Set Node source in apt
-    shell:
-      cmd: /root/nodesource_setup.sh
-      executable: /bin/bash
-  - name: Apt install NodeJS
-    apt:
-      name: nodejs
-      update_cache: yes
+  vars:
+    node_version: "18.5.0"
+    v_node_version: "v{{ node_version }}"
+    npm_version: "8.12.1"
+    npx_version: "8.12.1"
+    yarn_version: "3.5.0"
+    yo_version: "4.3.1"
+    generator_code_version: "1.7.5"
+    typescript_version: "5.1.3"
+
+  tasks:   # Test Node JS Tools versions
+  - name: Install Yarn
+    shell: "corepack enable && corepack prepare yarn@{{ yarn_version }} --activate"
+  - name: Get node version
+    shell: node --version
+    register: installed_node_version
+  - name: Get npm version
+    shell: npm --version
+    register: installed_npm_version
+  - name: Get npx installed version
+    shell: npx --version
+    register: installed_npx_version
+  - name: Get yarn version
+    shell: yarn --version
+    register: installed_yarn_version
+  - name: Get TypeScript Compiler version
+    shell: tsc --version | sed 's/[[:alpha:]|(|[:space:]]//g'
+    register: installed_tsc_version
+  - name: Display node tool versions
+    debug:
+      msg: "Node = {{ installed_node_version.stdout }} | npm = {{ installed_npm_version.stdout }} | npx = {{ installed_npx_version.stdout }} | yarn = {{ installed_yarn_version.stdout }}"
+  - name: Display TypeScript Compiler version
+    debug:
+      msg: "tsc = {{ installed_tsc_version.stdout }}"
+  - name: Test node version
+    fail:
+      msg: "NodeJS Version Error: Expected {{ v_node_version }} | Found {{ installed_node_version.stdout }}"
+    when: installed_node_version.stdout != v_node_version
+  - name: Test npm version
+    fail:
+      msg: "NPM Version Error: Expected {{ npm_version }} | Found {{ installed_npm_version.stdout }}"
+    when: installed_npm_version.stdout != npm_version
+  - name: Test npx version
+    fail:
+      msg: "NPX Version Error: Expected {{ npx_version }} | Found {{ installed_npx_version.stdout }}"
+    when: installed_npx_version.stdout != npx_version
+  - name: Test yarn version
+    fail:
+      msg: "Yarn Version Error: Expected {{ yarn_version }} | Found {{ installed_yarn_version.stdout }}"
+    when: installed_yarn_version.stdout != yarn_version
+  - name: Test TypeScript Compiler version
+    fail:
+      msg: "TypeScript Compiler Version Error: Expected {{ typescript_version }} | Found {{ installed_tsc_version.stdout }}"
+    when: installed_tsc_version.stdout != typescript_version
+
+  roles:
+  - role: grzegorznowak.nvm_node
+    nvm_install_script_version: "0.39.3"
+    nvm_node_version: "{{ node_version }}"
+    nvm_install_globally:
+    - name: yo
+      version: "{{ yo_version }}"
+    - name: generator-code
+      version: "{{ generator_code_version }}"
+    - name: typescript
+      version: "{{ typescript_version }}"
 
 -
   # Install doctools
