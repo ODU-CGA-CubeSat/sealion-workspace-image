@@ -700,6 +700,8 @@
   vars:
     jdk_version: 2:1.11-72build2
     graphviz_version_expected: "dot - graphviz version 2.50.0 (20211204.2007)"
+    gpredict_version: "2.3"
+    gpredict_version_to_install: "{{ gpredict_version }}-72-gc596101-3"
 
   tasks:
   - name: Install libtool
@@ -738,17 +740,10 @@
     apt:
       name: libgoocanvas-2.0-dev
       update_cache: yes
-  - name: Extract GPredict source files
-    unarchive:
-      src: /home/kasm-default-profile/install_files/gpredict-2.2.1.tar.bz2
-      dest: /home/kasm-default-profile/install_files
-      remote_src: yes
-      creates: /home/kasm-default-profile/gpredict-2.2.1/README
-  - name: Build GPredict
-    shell:
-      cmd: ./configure && make > /tmp/gpredict_build_output.txt 2>&1 && make install
-      chdir: /home/kasm-default-profile/install_files/gpredict-2.2.1/
-      executable: /bin/bash
+  - name: install GPredict with apt
+    apt:
+      name: "gpredict={{ gpredict_version_to_install }}"
+      update_cache: yes
 
 -
   # install GNU Radio Software with Apt
