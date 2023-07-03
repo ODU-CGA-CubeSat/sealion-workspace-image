@@ -391,6 +391,10 @@
     apt:
       name: "keychain={{ keychain_version_to_install }}"
       update_cache: yes
+  - name: install ping
+    apt:
+      name: iputils-ping
+      update_cache: yes
   - name: Get git version
     shell: git version | sed 's/[[:alpha:]|(|[:space:]]//g'
     register: installed_git_version
