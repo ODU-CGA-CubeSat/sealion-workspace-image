@@ -50,6 +50,8 @@ Base image currently usest the [Ansible based template for KASM Ubuntu Focal Ima
     - [LaTeX Workshop](https://marketplace.visualstudio.com/items?itemName=James-Yu.latex-workshop)
     - [PlantUML](https://marketplace.visualstudio.com/items?itemName=jebbs.plantuml)
     - [Python extension by Microsoft](https://marketplace.visualstudio.com/items?itemName=ms-python.python)
+- OSHW Design Tools
+    - [KiCAD](https://www.kicad.org/) 7.0.5
 
 ## Requirements
 
