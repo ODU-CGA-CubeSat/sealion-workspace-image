@@ -755,6 +755,9 @@
   connection: local
   tags: install_gnuradio
 
+  vars:
+    gnuradio_version: "3.10.1.1-2"
+
   tasks:
   - name: install gnuradio dependencies # as per https://wiki.gnuradio.org/index.php?title=UbuntuInstall#Focal_Fossa_(20.04)_through_Kinetic_Kudu_(22.10)
     apt:
@@ -765,7 +768,7 @@
     shell: add-apt-repository ppa:gnuradio/gnuradio-releases
   - name: Install GNU Radio (latest) with Apt
     apt:
-      name: gnuradio
+      name: gnuradio={{ gnuradio_version }}
       update_cache: yes
 
 -
