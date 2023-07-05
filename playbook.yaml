@@ -756,7 +756,8 @@
   tags: install_gnuradio
 
   vars:
-    gnuradio_version: "3.10.1.1-2"
+    gnuradio_version: "3.10.1.1"
+    gnuradio_version_to_install: "{{ gnuradio_version }}-2"
 
   tasks:
   - name: install gnuradio dependencies # as per https://wiki.gnuradio.org/index.php?title=UbuntuInstall#Focal_Fossa_(20.04)_through_Kinetic_Kudu_(22.10)
@@ -766,11 +767,21 @@
       install_recommends: yes
   - name: Add PPA repository for GNU Radio (latest)
     shell: add-apt-repository ppa:gnuradio/gnuradio-releases
-  - name: Install GNU Radio (latest) with Apt
+  - name: Install GNU Radio {{ gnuradio_version_to_install }} with Apt
     apt:
-      name: gnuradio={{ gnuradio_version }}
+      name: gnuradio={{ gnuradio_version_to_install }}
       update_cache: yes
       install_recommends: yes
+  - name: Get GNU Radio version
+    shell: gnuradio-config-info -v
+    register: installed_gnuradio_version
+  - name: Display GNU Radio versions
+    debug:
+      msg: "GNU Radio = {{ installed_gnuradio_version.stdout }}"
+  - name: Test GNU Radio version
+    fail:
+      msg: "GNU Radio Version Error: Expected {{ gnuradio_version }} | Found {{ installed_gnuradio_version.stdout }}"
+    when: installed_gnuradio_version.stdout != gnuradio_version
 
 -
   # install KiCad
