@@ -770,6 +770,7 @@
     apt:
       name: gnuradio={{ gnuradio_version }}
       update_cache: yes
+      install_recommends: yes
 
 -
   # install KiCad
