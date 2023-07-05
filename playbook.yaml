@@ -466,6 +466,37 @@
       requirements: https://raw.githubusercontent.com/nasa/fprime/v3.1.1/requirements.txt
 
 -
+  # install KiCad
+  hosts: localhost
+  connection: local
+  tags:
+    - install_kicad
+    - install_oshw_tools
+
+  vars:
+    kicad_version: "7.0.5"
+    kicad_version_to_install: "{{ kicad_version }}~ubuntu22.04.1"
+
+  tasks:
+  - name: Add PPA repository for KiCad 7.0
+    shell: add-apt-repository ppa:kicad/kicad-7.0-releases
+  - name: install KiCad {{ kicad_version }} with Apt
+    apt:
+      name: kicad={{ kicad_version_to_install }}
+      update_cache: yes
+      install_recommends: yes
+  - name: Get KiCad version
+    shell: kicad-cli version
+    register: installed_kicad_version
+  - name: Display KiCad versions
+    debug:
+      msg: "kicad = {{ installed_kicad_version.stdout }}"
+  - name: Test KiCad version
+    fail:
+      msg: "KiCad Version Error: Expected {{ kicad_version }} | Found {{ installed_kicad_version.stdout }}"
+    when: installed_kicad_version.stdout != kicad_version
+
+-
   # install Git LFS
   hosts: localhost
   connection: local
@@ -782,35 +813,6 @@
     fail:
       msg: "GNU Radio Version Error: Expected {{ gnuradio_version }} | Found {{ installed_gnuradio_version.stdout }}"
     when: installed_gnuradio_version.stdout != gnuradio_version
-
--
-  # install KiCad
-  hosts: localhost
-  connection: local
-  tags: install_kicad
-
-  vars:
-    kicad_version: "7.0.5"
-    kicad_version_to_install: "{{ kicad_version }}~ubuntu22.04.1"
-
-  tasks:
-  - name: Add PPA repository for KiCad 7.0
-    shell: add-apt-repository ppa:kicad/kicad-7.0-releases
-  - name: install KiCad {{ kicad_version }} with Apt
-    apt:
-      name: kicad={{ kicad_version_to_install }}
-      update_cache: yes
-      install_recommends: yes
-  - name: Get KiCad version
-    shell: kicad-cli version
-    register: installed_kicad_version
-  - name: Display KiCad versions
-    debug:
-      msg: "KiCad = {{ installed_kicad_version.stdout }}"
-  - name: Test KiCad version
-    fail:
-      msg: "KiCad Version Error: Expected {{ kicad_version }} | Found {{ installed_kicad_version.stdout }}"
-    when: installed_kicad_version.stdout != kicad_version
 
 -
   # install sudo for the vs-code role below
