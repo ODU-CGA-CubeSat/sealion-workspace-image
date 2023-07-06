@@ -480,7 +480,7 @@
 
   vars:
     git_version: "2.41.0"
-    git_version_to_install: "1:{{ git_version }}-0ppa1~ubuntu22.04.1"
+    git_version_to_install: "1:{{ git_version }}-0ppa1~ubuntu20.04.1"
     keychain_version: "2.8.5"
     keychain_version_to_install: "{{ keychain_version }}-2"
     keychain_version_expected: "{{ keychain_version }}.."
@@ -583,7 +583,7 @@
 
   vars:
     kicad_version: "7.0.5"
-    kicad_version_to_install: "{{ kicad_version }}~ubuntu22.04.1"
+    kicad_version_to_install: "{{ kicad_version }}~ubuntu20.04.1"
 
   tasks:
   - name: Install apt-utils with Apt (no recommended installs)
