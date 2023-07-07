@@ -444,8 +444,8 @@
   tags: install_gnuradio
 
   vars:
-    gnuradio_version: "3.10.1.1"
-    gnuradio_version_to_install: "{{ gnuradio_version }}-2"
+    gnuradio_version: "3.10.5.1"
+    gnuradio_version_to_install: "{{ gnuradio_version }}-0~gnuradio~focal-2"
 
   tasks:
   - name: install gnuradio dependencies # as per https://wiki.gnuradio.org/index.php?title=UbuntuInstall#Focal_Fossa_(20.04)_through_Kinetic_Kudu_(22.10)
