@@ -395,7 +395,7 @@
     - install_doctools
 
   vars:
-    jdk_version: 2:1.11-72build2
+    jdk_version: 2:1.11-72
     graphviz_version_expected: "dot - graphviz version 2.50.0 (20211204.2007)"
 
   tasks:
@@ -784,7 +784,7 @@
   - install_doctools
 
   vars:
-    jdk_version: 2:1.11-72build2
+    jdk_version: 2:1.11-72
     graphviz_version_expected: "dot - graphviz version 2.50.0 (20211204.2007)"
     gpredict_version: "2.3"
     gpredict_version_to_install: "{{ gpredict_version }}-72-gc596101-3"
