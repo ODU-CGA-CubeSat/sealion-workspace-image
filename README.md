@@ -24,8 +24,7 @@ Base image currently usest the [Ansible based template for KASM Ubuntu Focal Ima
     - build-essential
     - [cmake v3.2](http://www.cmake.org/files/v3.2)
 - [Keychain](https://www.funtoo.org/Keychain)
-- Chrome
-- Eclipse IDE for Embedded C/C++ (2019-03 release)
+- Firefox
 - [Pharo](https://pharo.org/)
 - [General Mission Analysis Tool](https://documentation.help/GMAT/)
 - [GNU Octave](https://octave.org/)

@@ -188,6 +188,7 @@
   roles:
   - role: andrewrothstein.pandoc
     pandoc_ver: "{{ pandoc_version }}"
+
 -
   # Install gs-avr-toolchain
   hosts: localhost
@@ -330,60 +331,6 @@
     shell: echo "default-server = unix:/run/user/1000/pulse/native" >> /etc/pulse/client.conf
   - name: Prevent the use of shared memory
     shell: echo "enable-shm = false" >> /etc/pulse/client.conf
-
--
-  # install OpenJDK 11
-  hosts: localhost
-  connection: local
-  tags:
-  - install_openjdk
-  - install_eclipse
-  - install_doctools
-
-  tasks:
-  - name: Rejoin files for OpenJDK 11 tarball
-    shell: cat /home/kasm-default-profile/install_files/openjdk-11+28_linux-x64_bin.tar.gz.part* > /home/kasm-default-profile/openjdk-11+28_linux-x64_bin.tar.gz
-  - name: Extract OpenJDK 11 tarball to /opt
-    unarchive:
-      src: /home/kasm-default-profile/openjdk-11+28_linux-x64_bin.tar.gz
-      dest: /opt
-      remote_src: yes
-      creates: /opt/jdk-11/release
-  - name: Delete OpenJDK 11 tarball
-    shell: rm /home/kasm-default-profile/openjdk-11+28_linux-x64_bin.tar.gz
-  - name: Update alternatives so the command, java, points to installed jdk
-    shell: update-alternatives --install /usr/bin/java java /opt/jdk-11/bin/java 100
-  - name: Update alternatives so the command, javac, points to installed jdk
-    shell: update-alternatives --install /usr/bin/javac javac /opt/jdk-11/bin/javac 100
-
--
-  # install Eclipse
-  hosts: localhost
-  connection: local
-  tags: install_eclipse
-
-  tasks:
-  - name: Join file parts for Eclipse IDE for Embedded C/C++ (2019-03 release) tarball
-    shell: cat /home/kasm-default-profile/install_files/eclipse-cpp-2019-03-R-linux-gtk-x86_64.tar.gz.part* > /home/kasm-default-profile/eclipse-cpp-2019-03-R-linux-gtk-x86_64.tar.gz
-  - name: Unarchive Eclipse IDE for Embedded C/C++ (2019-03 release) tarball
-    unarchive:
-      src: /home/kasm-default-profile/eclipse-cpp-2019-03-R-linux-gtk-x86_64.tar.gz
-      dest: /home/kasm-default-profile/
-      remote_src: yes
-  - name: Delete Eclipse IDE for Embedded C/C++ (2019-03 release) tarball
-    shell: rm /home/kasm-default-profile/eclipse-cpp-2019-03-R-linux-gtk-x86_64.tar.gz
-  - name: Create directory for eclipse/jre/
-    shell: mkdir /home/kasm-default-profile/eclipse/jre/
-  - name: Create directory for eclipse/jre/bin/
-    shell: mkdir /home/kasm-default-profile/eclipse/jre/bin/
-  - name: Create symlink to java binary
-    shell: ln -sv /opt/jdk-11/bin/java /home/kasm-default-profile/eclipse/jre/bin/java
-  - name: Export $HOME/eclipse/ to PATH
-    shell: echo 'export PATH="$HOME/eclipse/:$PATH"' >> /home/kasm-default-profile/.bashrc
-  - name: Create local application folder
-    shell: mkdir -p /home/kasm-default-profile/.local/share/applications/
-  - name: Configure Eclipse IDE desktop shortcut
-    shell: echo "[Desktop Entry]\nName=Eclipse\nGenericName=Eclipse IDE\nExec=/home/kasm-user/eclipse/eclipse\nIcon=/home/kasm-user/eclipse/plugins/org.eclipse.platform_4.11.0.v20190307-0500/eclipse48.png\nTerminal=false\nType=Application\nStartupNotify=false\nCategories=Application;Development;" > ~/.local/share/applications/eclipse.desktop
 
 -
   # install PlantUML
@@ -647,24 +594,6 @@
     - role: staticdev.firefox
 
 -
-  # install Git LFS
-  hosts: localhost
-  connection: local
-  tags: install_git_lfs
-
-  tasks:
-  - name: Extract Git LFS file contents
-    unarchive:
-      src: /home/kasm-default-profile/install_files/git-lfs-linux-amd64-v3.2.0.tar.gz
-      dest: /home/kasm-default-profile/
-      remote_src: yes
-      creates: /home/kasm-default-profile/git-lfs-3.2.0/README.md
-  - name: Install Git LFS
-    shell: /home/kasm-default-profile/git-lfs-3.2.0/install.sh
-  - name: Delete Git LFS install files directory
-    shell: rm -rf /home/kasm-default-profile/git-lfs-3.2.0
-
--
   # install Cross-compile toolchain for embedded Linux target
   hosts: localhost
   connection: local
@@ -780,12 +709,9 @@
   connection: local
   gather_facts: yes
   tags:
-  - install_plantuml
-  - install_doctools
+  - install_gpredict
 
   vars:
-    jdk_version: 2:1.11-72build2
-    graphviz_version_expected: "dot - graphviz version 2.50.0 (20211204.2007)"
     gpredict_version: "2.3"
     gpredict_version_to_install: "{{ gpredict_version }}-72-gc596101-3"
 
