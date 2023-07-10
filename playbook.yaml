@@ -671,6 +671,10 @@
     - install_gs_avr_toolchain
     - install_doctools
 
+  vars:
+    cmake_version: "3.22.1-1"
+    cmake_version_to_install: "{{ cmake_version }}-1ubuntu1"
+
   tasks:
   - name: Install gcc-arm-linux-gnueabihf with Apt
     apt:
@@ -684,19 +688,11 @@
     apt:
       name: gdb-multiarch
       update_cache: yes
-  - name: Extract cmake source files
-    unarchive:
-      src: /home/kasm-default-profile/install_files/cmake-3.23.1.tar.gz
-      dest: /home/kasm-default-profile/
-      remote_src: yes
-      creates: /home/kasm-default-profile/cmake-3.23.1/README
-  - name: Build cmake
-    shell:
-      cmd: ./configure && make > /tmp/cmake_build_output.txt 2>&1 && make install
-      chdir: /home/kasm-default-profile/cmake-3.23.1/
-      executable: /bin/bash
-  - name: Delete cmake source files
-    shell: rm -rf /home/kasm-default-profile/cmake-3.23.1/
+  - name: Install cmake {{ cmake_version }} with Apt
+    apt:
+      name: cmake={{ cmake_version_to_install }}
+      update_cache: yes
+      install_recommends: yes
 
 -
   # Install NodeJS Tools
