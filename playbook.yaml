@@ -538,10 +538,6 @@
       name: apt-utils
       update_cache: yes
       install_recommends: no
-  - name: Remove unused package dependencies
-    apt:
-      autoremove: yes
-      purge: yes
   - name: Add PPA repository for KiCad 7.0
     shell: add-apt-repository ppa:kicad/kicad-7.0-releases
   - name: install KiCad {{ kicad_version }} with Apt
