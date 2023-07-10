@@ -621,7 +621,6 @@
     apt:
       name: cmake={{ cmake_version_to_install }}
       update_cache: yes
-      install_recommends: yes
 
 -
   # Install NodeJS Tools
