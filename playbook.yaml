@@ -605,7 +605,7 @@
     - install_doctools
 
   vars:
-    cmake_version: "3.22.1-1"
+    cmake_version: "3.22.1"
     cmake_version_to_install: "{{ cmake_version }}-1ubuntu1"
 
   tasks:
