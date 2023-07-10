@@ -6,27 +6,17 @@ This repo provides an immutable infrastructure as code (iiac) workspace for syst
 Base image currently usest the [Ansible based template for KASM Ubuntu Focal Images](https://github.com/j-simmons-phd/kasm-core-focal-template) template provided by @j-simmons-phd.  The workspace is configured with the following software:
 
 - Utilities
-    - git v2.38.1 with @capsulecorplab .gitconfig
+    - git v2.41.0 with @capsulecorplab .gitconfig
     - [Keychain](https://www.funtoo.org/Keychain) v2.8.5
     - Vim (pre-installed) with @capsulecorplab [vimrc](https://gist.github.com/capsulecorplab/495058e7a57ed8adaed3c40c80d09739#file-vimrc)
-- Artifact Generators
-    - [Pandoc](https://pandoc.org/) v2.17.0.1
-    - [TeX Live](https://www.tug.org/texlive/) v2019 to enable PDF support in Pandoc
-    - [yq](https://mikefarah.gitbook.io/yq/) v4.20.2
-    - [PlantUML](https://plantuml.com/)
-        - JDK v11
-        - Graphviz 2.50 (built from source)
-    - [AsciiDoctor](https://asciidoctor.org/) v2.0.17 with PlantUML and PDF support
 - Cross Compile Toolchain for embedded Linux
     - gcc-arm-linux-gnueabihf
     - g++-arm-linux-gnueabihf
     - gdb-multiarch
     - build-essential
     - [cmake v3.2](http://www.cmake.org/files/v3.2)
-- [git lfs](https://git-lfs.github.com/)
 - [Keychain](https://www.funtoo.org/Keychain)
-- Chrome
-- Eclipse IDE for Embedded C/C++ (2019-03 release)
+- Firefox
 - [Pharo](https://pharo.org/)
 - [General Mission Analysis Tool](https://documentation.help/GMAT/)
 - [GNU Octave](https://octave.org/)
@@ -38,7 +28,7 @@ Base image currently usest the [Ansible based template for KASM Ubuntu Focal Ima
     - Juptyer Notebook
     - Voila
     - Pint
-- Python 3.8.x (part of the image template) with the following packages (not part of the image template)
+- Python 3.10 (part of the image template) with the following packages (not part of the image template)
     - pip
     - [fprime-tools](https://github.com/fprime-community/fprime-tools)
     - [fprime-gds](https://github.com/fprime-community/fprime-gds)
@@ -51,6 +41,8 @@ Base image currently usest the [Ansible based template for KASM Ubuntu Focal Ima
     - [LaTeX Workshop](https://marketplace.visualstudio.com/items?itemName=James-Yu.latex-workshop)
     - [PlantUML](https://marketplace.visualstudio.com/items?itemName=jebbs.plantuml)
     - [Python extension by Microsoft](https://marketplace.visualstudio.com/items?itemName=ms-python.python)
+- OSHW Design Tools
+    - [KiCAD](https://www.kicad.org/) 7.0.5
 
 ## Requirements
 

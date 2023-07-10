@@ -68,26 +68,26 @@
       name: build-essential
       update_cache: yes
 
--
-  # Install zlib
-  hosts: localhost
-  connection: local
-  tags:
-  - install_doctools
-  - install_generator_plantuml
-
-  tasks:
-  - name: Extract zlib v1.2.13 source from tarball
-    unarchive:
-      src: /home/kasm-default-profile/install_files/zlib-1.2.13.tar.gz
-      dest: /home/kasm-default-profile/install_files
-      remote_src: yes
-      creates: /home/kasm-default-profile/install_files/zlib-1.2.13/README
-  - name: Build zlib v1.2.13
-    shell:
-      cmd: ./configure && make > /tmp/zlib_build_output.txt 2>&1 && make install
-      chdir: /home/kasm-default-profile/install_files/zlib-1.2.13/
-      executable: /bin/bash
+#-
+#  # Install zlib
+#  hosts: localhost
+#  connection: local
+#  tags:
+#  - install_doctools
+#  - install_generator_plantuml
+#
+#  tasks:
+#  - name: Extract zlib v1.2.13 source from tarball
+#    unarchive:
+#      src: /home/kasm-default-profile/install_files/zlib-1.2.13.tar.gz
+#      dest: /home/kasm-default-profile/install_files
+#      remote_src: yes
+#      creates: /home/kasm-default-profile/install_files/zlib-1.2.13/README
+#  - name: Build zlib v1.2.13
+#    shell:
+#      cmd: ./configure && make > /tmp/zlib_build_output.txt 2>&1 && make install
+#      chdir: /home/kasm-default-profile/install_files/zlib-1.2.13/
+#      executable: /bin/bash
 
 -
   # Install OpenSSL development package
@@ -105,6 +105,90 @@
       name: libssl-dev
       update_cache: yes
 
+#-
+#  # Install doctools
+#  hosts: localhost
+#  connection: local
+#  tags: install_doctools
+#
+#  vars:
+#    pandoc_version: "2.18"
+#    texlive_version: "2021.20220204-1"
+#    texlive_version_expected: "pdfTeX 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian)"
+#    asciidoctor_version: 2.0.17
+#    asciidoctor_version_expected: "{{ asciidoctor_version }}[.]"
+#
+#  tasks:
+#  - name: Install Ruby
+#    apt:
+#      name: ruby-full
+#      update_cache: yes
+#  - name: Join parts of jabref tarball
+#    shell: cat /home/kasm-default-profile/install_files/jabref_5.6-1_amd64.deb.part* > /home/kasm-default-profile/install_files/jabref_5.6-1_amd64.deb
+#  - name: install jabref from deb
+#    apt:
+#      deb: /home/kasm-default-profile/install_files/jabref_5.6-1_amd64.deb
+#      update_cache: yes
+#  - name: Run gem install for asciidoctor
+#    shell:
+#      cmd: "gem install asciidoctor -v {{ asciidoctor_version }}"
+#  - name: install asciidoctor-bibtex as ruby gem
+#    shell: gem install asciidoctor-bibtex
+#  - name: install asciidoctor-diagram as ruby gem
+#    shell: gem install asciidoctor-diagram
+#  - name: install asciidoctor-pdf as ruby gem
+#    shell: gem install asciidoctor-pdf
+#  - name: install asciidoctor-revealjs as ruby gem
+#    shell: gem install asciidoctor-revealjs
+#  - name: install TeX Live
+#    apt:
+#      name: "texlive-full={{ texlive_version }}"
+#      update_cache: yes
+#    # https://mikefarah.gitbook.io/yq/
+#  - name: Install yq
+#    copy:
+#      src: /home/kasm-default-profile/install_files/yq
+#      dest: /usr/bin/yq
+#      remote_src: yes
+#      owner: root
+#      group: root
+#      mode: '0755'
+#  - name: Install pandoc-citeproc
+#    apt:
+#      name: pandoc-citeproc
+#      update_cache: yes
+#  - name: Get pandoc version
+#    shell: pandoc --version | grep -m 1 -i pandoc | sed 's/[[:alpha:]|(|[:space:]]//g'
+#    register: installed_pandoc_version
+#  - name: Get TeX Live version
+#    shell: latex --version | grep -i Tex -m 1
+#    register: installed_texlive_version
+#  - name: Display pandoc and texlive versions
+#    debug:
+#      msg: "pandoc = {{ installed_pandoc_version.stdout }} | texlive = {{ installed_texlive_version.stdout }}"
+#  - name: Test pandoc version
+#    fail:
+#      msg: "Pandoc Version Error: Expected {{ pandoc_version }} | Found {{ installed_pandoc_version.stdout }}"
+#    when: installed_pandoc_version.stdout != pandoc_version
+#  - name: Test texlive version
+#    fail:
+#      msg: "TeX Live Version Error: Expected {{ texlive_version_expected }} | Found {{ installed_texlive_version.stdout }}"
+#    when: installed_texlive_version.stdout != texlive_version_expected
+#  - name: Get asciidoctor version
+#    shell: asciidoctor --version | grep Asciidoctor | sed 's/[[:alpha:]|(|[:space:]]//g' | sed 's/[*~://]//g'
+#    register: installed_asciidoctor_version
+#  - name: Display asciidoctor version
+#    debug:
+#      msg: "ASCII Doctor = {{ installed_asciidoctor_version.stdout }}"
+#  - name: Test asciidoctor version
+#    fail:
+#      msg: "ASCII Doctor Version Error: Expected {{ asciidoctor_version_expected }} | Found {{ installed_asciidoctor_version.stdout }}"
+#    when: installed_asciidoctor_version.stdout != asciidoctor_version_expected
+#
+#  roles:
+#  - role: andrewrothstein.pandoc
+#    pandoc_ver: "{{ pandoc_version }}"
+
 -
   # Install gs-avr-toolchain
   hosts: localhost
@@ -112,12 +196,16 @@
   tags: install_gs_avr_toolchain
 
   tasks:
-  - name: Install libmpfr-dev v4.0.2-1 from deb
+  - name: Install libmpfr6 with apt
     apt:
-      deb: /home/kasm-default-profile/install_files/libmpfr-dev_4.0.2-1_amd64.deb
+      name: libmpfr6
       update_cache: yes
   - name: Create symbolic link for libmpfr.so.4
     shell: ln -srv /usr/lib/x86_64-linux-gnu/libmpfr.so.6 /usr/lib/x86_64-linux-gnu/libmpfr.so.4
+  - name: Install unzip with apt
+    apt:
+      name: unzip
+      update_cache: yes
   - name: Install gs-avr-toolchain
     shell:
       cmd: /home/kasm-default-profile/install_files/avr_toolchain/gs-avr32-toolchain-3.4.2_gs1/install-avr32.sh
@@ -152,24 +240,22 @@
   tasks:
   - name: Install GMAT dependencies with Apt
     apt:
-      name: libopengl0, libpython3.8
+      name: libopengl0
       update_cache: yes
-  - name: Create symlink for libpython3.6m.so.1.0
-    shell: ln -srv /usr/lib/x86_64-linux-gnu/libpython3.8.so.1.0 /usr/lib/x86_64-linux-gnu/libpython3.6m.so.1.0
   - name: Join parts of GMAT tarball
-    shell: cat /home/kasm-default-profile/install_files/gmat-ubuntu-x64-R2020a.tar.gz.part* > /home/kasm-default-profile/gmat-ubuntu-x64-R2020a.tar.gz
+    shell: cat /home/kasm-default-profile/install_files/gmat-ubuntu-x64-R2022a.tar.gz.part* > /home/kasm-default-profile/gmat-ubuntu-x64-R2022a.tar.gz
   - name: Extract GMAT tarball to /opt
     unarchive:
-      src: /home/kasm-default-profile/gmat-ubuntu-x64-R2020a.tar.gz
+      src: /home/kasm-default-profile/gmat-ubuntu-x64-R2022a.tar.gz
       dest: /opt
       remote_src: yes
-      creates: /opt/GMAT/R2020a/README.txt
+      creates: /opt/GMAT/R2022a/README.txt
   - name: Delete GMAT tarball
-    shell: rm /home/kasm-default-profile/gmat-ubuntu-x64-R2020a.tar.gz
+    shell: rm /home/kasm-default-profile/gmat-ubuntu-x64-R2022a.tar.gz
   - name: Create local application folder
     shell: mkdir -p /home/kasm-default-profile/.local/share/applications/
   - name: Configure GMAT desktop shortcut
-    shell: echo "[Desktop Entry]\nName=GMAT\nGenericName=GMAT\nExec=/opt/GMAT/R2020a/bin/GMAT_Beta\nIcon=/opt/GMAT/R2020a/data/graphics/icons/GMATLogo.png\nTerminal=false\nType=Application\nStartupNotify=false\nCategories=Application;Education;" > ~/.local/share/applications/gmat.desktop
+    shell: echo "[Desktop Entry]\nName=GMAT\nGenericName=GMAT\nExec=/opt/GMAT/R2022a/bin/GMAT_Beta\nIcon=/opt/GMAT/R2022a/data/graphics/icons/GMATLogo.png\nTerminal=false\nType=Application\nStartupNotify=false\nCategories=Application;Education;" > ~/.local/share/applications/gmat.desktop
 
 -
   # install Octave
@@ -183,14 +269,6 @@
   - name: Install octave-doc with Apt
     apt:
       name: octave-doc
-      update_cache: yes
-  - name: Install octave-info with Apt
-    apt:
-      name: octave-info
-      update_cache: yes
-  - name: Install octave-htmldoc with Apt
-    apt:
-      name: octave-htmldoc
       update_cache: yes
   - name: Install liboctave-dev with Apt
     apt:
@@ -254,120 +332,91 @@
   - name: Prevent the use of shared memory
     shell: echo "enable-shm = false" >> /etc/pulse/client.conf
 
--
-  # install OpenJDK 11
-  hosts: localhost
-  connection: local
-  tags:
-  - install_openjdk
-  - install_eclipse
-  - install_doctools
-
-  tasks:
-  - name: Rejoin files for OpenJDK 11 tarball
-    shell: cat /home/kasm-default-profile/install_files/openjdk-11+28_linux-x64_bin.tar.gz.part* > /home/kasm-default-profile/openjdk-11+28_linux-x64_bin.tar.gz
-  - name: Extract OpenJDK 11 tarball to /opt
-    unarchive:
-      src: /home/kasm-default-profile/openjdk-11+28_linux-x64_bin.tar.gz
-      dest: /opt
-      remote_src: yes
-      creates: /opt/jdk-11/release
-  - name: Delete OpenJDK 11 tarball
-    shell: rm /home/kasm-default-profile/openjdk-11+28_linux-x64_bin.tar.gz
-  - name: Update alternatives so the command, java, points to installed jdk
-    shell: update-alternatives --install /usr/bin/java java /opt/jdk-11/bin/java 100
-  - name: Update alternatives so the command, javac, points to installed jdk
-    shell: update-alternatives --install /usr/bin/javac javac /opt/jdk-11/bin/javac 100
-
--
-  # install Eclipse
-  hosts: localhost
-  connection: local
-  tags: install_eclipse
-
-  tasks:
-  - name: Join file parts for Eclipse IDE for Embedded C/C++ (2019-03 release) tarball
-    shell: cat /home/kasm-default-profile/install_files/eclipse-cpp-2019-03-R-linux-gtk-x86_64.tar.gz.part* > /home/kasm-default-profile/eclipse-cpp-2019-03-R-linux-gtk-x86_64.tar.gz
-  - name: Unarchive Eclipse IDE for Embedded C/C++ (2019-03 release) tarball
-    unarchive:
-      src: /home/kasm-default-profile/eclipse-cpp-2019-03-R-linux-gtk-x86_64.tar.gz
-      dest: /home/kasm-default-profile/
-      remote_src: yes
-  - name: Delete Eclipse IDE for Embedded C/C++ (2019-03 release) tarball
-    shell: rm /home/kasm-default-profile/eclipse-cpp-2019-03-R-linux-gtk-x86_64.tar.gz
-  - name: Create directory for eclipse/jre/
-    shell: mkdir /home/kasm-default-profile/eclipse/jre/
-  - name: Create directory for eclipse/jre/bin/
-    shell: mkdir /home/kasm-default-profile/eclipse/jre/bin/
-  - name: Create symlink to java binary
-    shell: ln -sv /opt/jdk-11/bin/java /home/kasm-default-profile/eclipse/jre/bin/java
-  - name: Export $HOME/eclipse/ to PATH
-    shell: echo 'export PATH="$HOME/eclipse/:$PATH"' >> /home/kasm-default-profile/.bashrc
-  - name: Create local application folder
-    shell: mkdir -p /home/kasm-default-profile/.local/share/applications/
-  - name: Configure Eclipse IDE desktop shortcut
-    shell: echo "[Desktop Entry]\nName=Eclipse\nGenericName=Eclipse IDE\nExec=/home/kasm-user/eclipse/eclipse\nIcon=/home/kasm-user/eclipse/plugins/org.eclipse.platform_4.11.0.v20190307-0500/eclipse48.png\nTerminal=false\nType=Application\nStartupNotify=false\nCategories=Application;Development;" > ~/.local/share/applications/eclipse.desktop
+#-
+#  # install PlantUML
+#  hosts: localhost
+#  connection: local
+#  gather_facts: yes
+#  tags:
+#    - install_generator_plantuml
+#    - install_doctools
+#
+#  vars:
+#    jdk_version: 2:1.11-72build2
+#    graphviz_version_expected: "dot - graphviz version 2.50.0 (20211204.2007)"
+#
+#  tasks:
+#  - name: Install JDK
+#    apt:
+#      name: "default-jdk={{ jdk_version }}"
+#      update_cache: yes
+#  - name: Get JDK Version
+#    shell: java --version | grep -m 1 -i openjdk
+#    register: installed_jdk_version
+#  - name: Install pre-reqs to build graphviz
+#    apt:
+#      name: libcairo2-dev, libexpat-dev, libfreetype-dev, libgd-dev, fontconfig-config, libglib2.0-dev, libgtk2.0-dev, libpng-dev, libsdl-pango-dev, libgts-bin, libgtk-3-dev, libgtkglext1-dev, glade, freeglut3-dev, autoconf, automake, bison, flex, ghostscript, libtool, pkg-config, swig
+#      update_cache: yes
+#  - name: Expand source files archive
+#    unarchive:
+#      src: /home/kasm-default-profile/install_files/graphviz-2.50.0.tar.gz
+#      dest: /home/kasm-default-profile/install_files/
+#      remote_src: yes
+#      creates: /home/kasm-default-profile/install_files/graphviz-2.50.0/README
+#  - name: Build graphviz
+#    shell:
+#      cmd: ./configure --enable-perl=no && make > /tmp/graphviz_build_output.txt 2>&1 && make install
+#      chdir: /home/kasm-default-profile/install_files/graphviz-2.50.0/
+#      executable: /bin/bash
+#  - name: Get graphviz version
+#    shell: dot -V
+#    register: installed_graphviz_version
+#  - name: install plantuml
+#    copy:
+#      src: /home/kasm-default-profile/install_files/plantuml.jar
+#      dest: /usr/local/bin/plantuml.jar
+#      remote_src: yes
+#  - name: Display JDK and GraphViz versions
+#    debug:
+#      msg: "JDK = {{ installed_jdk_version.stdout }} | graphviz = {{ installed_graphviz_version.stderr }}"
+#  - name: Test Graphviz version
+#    fail:
+#      msg: "Graphviz Version Error: Expected {{ graphviz_version_expected }} | Found {{ installed_graphviz_version.stderr }}"
+#    when: installed_graphviz_version.stderr != graphviz_version_expected
 
 -
-  # install PlantUML
+  # install GNU Radio Software
   hosts: localhost
   connection: local
-  gather_facts: yes
-  tags:
-    - install_generator_plantuml
-    - install_doctools
+  tags: install_gnuradio
 
   vars:
-    jdk_version: 2:1.11-72
-    graphviz_version_expected: "dot - graphviz version 2.50.0 (20211204.2007)"
+    gnuradio_version: "3.10.1.1"
+    gnuradio_version_to_install: "{{ gnuradio_version }}-2"
 
   tasks:
-  - name: Install JDK
+  - name: install gnuradio dependencies # as per https://wiki.gnuradio.org/index.php?title=UbuntuInstall#Focal_Fossa_(20.04)_through_Kinetic_Kudu_(22.10)
     apt:
-      name: "default-jdk={{ jdk_version }}"
+      name: g++, libboost-all-dev, libgmp-dev, swig, python3-numpy, python3-mako, python3-sphinx, python3-lxml, doxygen, libfftw3-dev, libsdl1.2-dev, libgsl-dev, libqwt-qt5-dev, libqt5opengl5-dev, python3-pyqt5, liblog4cpp5-dev, libzmq3-dev, python3-yaml, python3-click, python3-click-plugins, python3-zmq, python3-scipy, python3-gi, python3-gi-cairo, gir1.2-gtk-3.0, libcodec2-dev, libgsm1-dev, libusb-1.0-0, libusb-1.0-0-dev, libudev-dev
       update_cache: yes
-  - name: Get JDK Version
-    shell: java --version | grep -m 1 -i openjdk
-    register: installed_jdk_version
-  - name: Install pre-reqs to build graphviz
+      install_recommends: yes
+  - name: Add PPA repository for GNU Radio (latest)
+    shell: add-apt-repository ppa:gnuradio/gnuradio-releases
+  - name: Install GNU Radio {{ gnuradio_version_to_install }} with Apt
     apt:
-      name: libcairo2-dev, libexpat-dev, libfreetype-dev, libgd-dev, fontconfig-config, libglib2.0-dev, libgtk2.0-dev, libpng-dev, libsdl-pango-dev, libgts-bin, libgtk-3-dev, libgtkglext1-dev, glade, freeglut3-dev, autoconf, automake, bison, flex, ghostscript, libtool, pkg-config, swig
+      name: gnuradio={{ gnuradio_version_to_install }}
       update_cache: yes
-  - name: Expand source files archive
-    unarchive:
-      src: /home/kasm-default-profile/install_files/graphviz-2.50.0.tar.gz
-      dest: /home/kasm-default-profile/install_files/
-      remote_src: yes
-      creates: /home/kasm-default-profile/install_files/graphviz-2.50.0/README
-  - name: Build graphviz
-    shell:
-      cmd: ./configure --enable-perl=no && make > /tmp/graphviz_build_output.txt 2>&1 && make install
-      chdir: /home/kasm-default-profile/install_files/graphviz-2.50.0/
-      executable: /bin/bash
-  - name: Get graphviz version
-    shell: dot -V
-    register: installed_graphviz_version
-  - name: install plantuml
-    copy:
-      src: /home/kasm-default-profile/install_files/plantuml.jar
-      dest: /usr/local/bin/plantuml.jar
-      remote_src: yes
-  - name: Display JDK and GraphViz versions
+      install_recommends: yes
+  - name: Get GNU Radio version
+    shell: gnuradio-config-info -v
+    register: installed_gnuradio_version
+  - name: Display GNU Radio versions
     debug:
-      msg: "JDK = {{ installed_jdk_version.stdout }} | graphviz = {{ installed_graphviz_version.stderr }}"
-  - name: Test Graphviz version
+      msg: "GNU Radio = {{ installed_gnuradio_version.stdout }}"
+  - name: Test GNU Radio version
     fail:
-      msg: "Graphviz Version Error: Expected {{ graphviz_version_expected }} | Found {{ installed_graphviz_version.stderr }}"
-    when: installed_graphviz_version.stderr != graphviz_version_expected
-
--
-  # install chrome
-  hosts: localhost
-  connection: local
-  gather_facts: yes
-
-  roles:
-    - role: webarchitect609.google_chrome
+      msg: "GNU Radio Version Error: Expected {{ gnuradio_version }} | Found {{ installed_gnuradio_version.stdout }}"
+    when: installed_gnuradio_version.stdout != gnuradio_version
 
 -
   # install keychain, git, and @capsulecorplab .vimrc and .gitconfig
@@ -377,57 +426,29 @@
   tags: install_utilities
 
   vars:
-    git_version: "2.38.1"
-    git_version_to_install: "1:{{ git_version }}-0ppa1~ubuntu20.04.1"
+    git_version: "2.41.0"
+    git_version_to_install: "1:{{ git_version }}-0ppa1~ubuntu22.04.1"
     keychain_version: "2.8.5"
-    keychain_version_to_install: "{{ keychain_version }}-1"
+    keychain_version_to_install: "{{ keychain_version }}-2"
     keychain_version_expected: "{{ keychain_version }}.."
 
   tasks:
-  - name: Install dh-autoreconf
+  - name: Add git PPA
+    shell: add-apt-repository ppa:git-core/ppa
+  - name: Install git
     apt:
-      name: dh-autoreconf
-      update_cache: yes
-  - name: Install libcurl4-gnutls-dev
-    apt:
-      name: libcurl4-gnutls-dev
-      update_cache: yes
-  - name: Install libexpat1-dev
-    apt:
-      name: libexpat1-dev
-      update_cache: yes
-  - name: Install gettext
-    apt:
-      name: gettext
-      update_cache: yes
-  - name: Install libz-dev
-    apt:
-      name: libz-dev
-      update_cache: yes
-  - name: Install install-info
-    apt:
-      name: install-info
-      update_cache: yes
-  - name: Extract git source files
-    unarchive:
-      src: /home/kasm-default-profile/install_files/git-2.38.1.tar.gz
-      dest: /home/kasm-default-profile/
-      remote_src: yes
-      creates: /home/kasm-default-profile/git-2.38.1/README.md
-  - name: Build git
-    shell:
-      cmd: make configure && ./configure --prefix=/usr && make > /tmp/git_build_output.txt 2>&1 && make install
-      chdir: /home/kasm-default-profile/git-2.38.1
-      executable: /bin/bash
-  - name: Delete git source files
-    shell: rm -rf /home/kasm-default-profile/git-2.38.1
-  - name: Install Bash Completion
+      name: "git={{ git_version_to_install }}"
+  - name: Install Git Bash Completion
     apt:
       name: bash-completion
       update_cache: yes
   - name: Install Keychain
     apt:
       name: "keychain={{ keychain_version_to_install }}"
+      update_cache: yes
+  - name: install ping
+    apt:
+      name: iputils-ping
       update_cache: yes
   - name: Get git version
     shell: git version | sed 's/[[:alpha:]|(|[:space:]]//g'
@@ -500,22 +521,73 @@
       requirements: https://raw.githubusercontent.com/nasa/fprime/v3.1.1/requirements.txt
 
 -
-  # install Git LFS
+  # install KiCad
   hosts: localhost
   connection: local
-  tags: install_git_lfs
+  tags:
+    - install_kicad
+    - install_oshw_tools
+
+  vars:
+    kicad_version: "7.0.6"
+    kicad_version_to_install: "{{ kicad_version }}~ubuntu22.04.1"
 
   tasks:
-  - name: Extract Git LFS file contents
-    unarchive:
-      src: /home/kasm-default-profile/install_files/git-lfs-linux-amd64-v3.2.0.tar.gz
-      dest: /home/kasm-default-profile/
-      remote_src: yes
-      creates: /home/kasm-default-profile/git-lfs-3.2.0/README.md
-  - name: Install Git LFS
-    shell: /home/kasm-default-profile/git-lfs-3.2.0/install.sh
-  - name: Delete Git LFS install files directory
-    shell: rm -rf /home/kasm-default-profile/git-lfs-3.2.0
+  - name: Install apt-utils with Apt (no recommended installs)
+    apt:
+      name: apt-utils
+      update_cache: yes
+      install_recommends: no
+  - name: Add PPA repository for KiCad 7.0
+    shell: add-apt-repository ppa:kicad/kicad-7.0-releases
+  - name: install KiCad {{ kicad_version }} with Apt
+    apt:
+      name: kicad={{ kicad_version_to_install }}
+      update_cache: yes
+      install_recommends: yes
+  - name: Get KiCad version
+    shell: kicad-cli version
+    register: installed_kicad_version
+  - name: Display KiCad versions
+    debug:
+      msg: "kicad = {{ installed_kicad_version.stdout }}"
+  - name: Test KiCad version
+    fail:
+      msg: "KiCad Version Error: Expected {{ kicad_version }} | Found {{ installed_kicad_version.stdout }}"
+    when: installed_kicad_version.stdout != kicad_version
+
+-
+  # install firefox
+  hosts: localhost
+  connection: local
+  gather_facts: yes
+  tags: install_firefox
+
+  vars:
+    firefox_profiles:
+      default:
+        extensions:
+          - ublock-origin
+        preferences:
+          network.cookie.cookieBehavior: 1
+          privacy.donottrackheader.enabled: true
+          datareporting.healthreport.uploadEnabled: false
+      secondprofile:
+        extensions:
+          - adblock-plus
+        preferences:
+          privacy.donottrackheader.enabled: false
+          privacy.trackingprotection.enabled: false
+          signon.rememberSignons: false
+          datareporting.healthreport.uploadEnabled: false
+
+  pre_tasks:
+  - name: Update apt packages
+    apt:
+      update_cache: yes
+
+  roles:
+    - role: staticdev.firefox
 
 -
   # install Cross-compile toolchain for embedded Linux target
@@ -556,128 +628,93 @@
     shell: rm -rf /home/kasm-default-profile/cmake-3.23.1/
 
 -
-  # install NodeJs
+  # Install NodeJS Tools
   hosts: localhost
   connection: local
   gather_facts: yes
   tags:
-    - install_node
-    - install_doctools
-
-  tasks:
-  - name: Download node source setup
-    get_url:
-      url: https://deb.nodesource.com/setup_17.x
-      dest: /root/nodesource_setup.sh
-      mode: 0700
-  - name: Set Node source in apt
-    shell:
-      cmd: /root/nodesource_setup.sh
-      executable: /bin/bash
-  - name: Apt install NodeJS
-    apt:
-      name: nodejs
-      update_cache: yes
-
--
-  # Install doctools
-  hosts: localhost
-  connection: local
-  tags: install_doctools
+  - install_node
+  - install_doctools
 
   vars:
-    pandoc_version: "2.18"
-    texlive_version: "2019.20200218-1"
-    texlive_version_expected: "pdfTeX 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian)"
-    asciidoctor_version: 2.0.17
-    asciidoctor_version_expected: "{{ asciidoctor_version }}[.]"
+    node_version: "18.5.0"
+    v_node_version: "v{{ node_version }}"
+    npm_version: "8.12.1"
+    npx_version: "8.12.1"
+    yarn_version: "3.5.0"
+    yo_version: "4.3.1"
+    generator_code_version: "1.7.5"
+    typescript_version: "5.1.3"
 
-  tasks:
-#  - name: Extract ruby source tarball
-#    unarchive:
-#      src: /home/kasm-default-profile/install_files/ruby-3.1.2.tar.gz
-#      dest: /home/kasm-default-profile/install_files
-#      remote_src: yes
-#      creates: /home/kasm-default-profile/install_files/ruby-3.1.2
-#  - name: Build ruby
-#    shell:
-#      cmd: make configure && ./configure --prefix=/usr && make > /tmp/ruby_build_output.txt 2>&1 && make install
-#      chdir: /home/kasm-default-profile/install_files/ruby-3.1.2
-#      executable: /bin/bash
-  - name: Install Ruby
-    apt:
-      name: ruby-full
-      update_cache: yes
-  - name: Join parts of jabref tarball
-    shell: cat /home/kasm-default-profile/install_files/jabref_5.6-1_amd64.deb.part* > /home/kasm-default-profile/install_files/jabref_5.6-1_amd64.deb
-  - name: install jabref from deb
-    apt:
-      deb: /home/kasm-default-profile/install_files/jabref_5.6-1_amd64.deb
-      update_cache: yes
-  - name: Run gem install for asciidoctor
-    shell:
-      cmd: "gem install asciidoctor -v {{ asciidoctor_version }}"
-  - name: install asciidoctor-bibtex as ruby gem
-    shell: gem install asciidoctor-bibtex
-  - name: install asciidoctor-diagram as ruby gem
-    shell: gem install asciidoctor-diagram
-  - name: install asciidoctor-pdf as ruby gem
-    shell: gem install asciidoctor-pdf
-  - name: install asciidoctor-revealjs as ruby gem
-    shell: gem install asciidoctor-revealjs
-  - name: install TeX Live
-    apt:
-      name: "texlive-full={{ texlive_version }}"
-      update_cache: yes
-    # https://mikefarah.gitbook.io/yq/
-  - name: Install yq
-    copy:
-      src: /home/kasm-default-profile/install_files/yq
-      dest: /usr/bin/yq
-      remote_src: yes
-      owner: root
-      group: root
-      mode: '0755'
-  - name: Install pandoc-citeproc
-    apt:
-      name: pandoc-citeproc
-      update_cache: yes
-  - name: Get pandoc version
-    shell: pandoc --version | grep -m 1 -i pandoc | sed 's/[[:alpha:]|(|[:space:]]//g'
-    register: installed_pandoc_version
-  - name: Get TeX Live version
-    shell: latex --version | grep -i Tex -m 1
-    register: installed_texlive_version
-  - name: Display pandoc and texlive versions
+  tasks:   # Test Node JS Tools versions
+  - name: Install Yarn
+    shell: "corepack enable && corepack prepare yarn@{{ yarn_version }} --activate"
+  - name: Get node version
+    shell: node --version
+    register: installed_node_version
+  - name: Get npm version
+    shell: npm --version
+    register: installed_npm_version
+  - name: Get npx installed version
+    shell: npx --version
+    register: installed_npx_version
+  - name: Get yarn version
+    shell: yarn --version
+    register: installed_yarn_version
+  - name: Get TypeScript Compiler version
+    shell: tsc --version | sed 's/[[:alpha:]|(|[:space:]]//g'
+    register: installed_tsc_version
+  - name: Display node tool versions
     debug:
-      msg: "pandoc = {{ installed_pandoc_version.stdout }} | texlive = {{ installed_texlive_version.stdout }}"
-  - name: Test pandoc version
-    fail:
-      msg: "Pandoc Version Error: Expected {{ pandoc_version }} | Found {{ installed_pandoc_version.stdout }}"
-    when: installed_pandoc_version.stdout != pandoc_version
-  - name: Test texlive version
-    fail:
-      msg: "TeX Live Version Error: Expected {{ texlive_version_expected }} | Found {{ installed_texlive_version.stdout }}"
-    when: installed_texlive_version.stdout != texlive_version_expected
-  - name: Get asciidoctor version
-    shell: asciidoctor --version | grep Asciidoctor | sed 's/[[:alpha:]|(|[:space:]]//g' | sed 's/[*~://]//g'
-    register: installed_asciidoctor_version
-  - name: Display asciidoctor version
+      msg: "Node = {{ installed_node_version.stdout }} | npm = {{ installed_npm_version.stdout }} | npx = {{ installed_npx_version.stdout }} | yarn = {{ installed_yarn_version.stdout }}"
+  - name: Display TypeScript Compiler version
     debug:
-      msg: "ASCII Doctor = {{ installed_asciidoctor_version.stdout }}"
-  - name: Test asciidoctor version
+      msg: "tsc = {{ installed_tsc_version.stdout }}"
+  - name: Test node version
     fail:
-      msg: "ASCII Doctor Version Error: Expected {{ asciidoctor_version_expected }} | Found {{ installed_asciidoctor_version.stdout }}"
-    when: installed_asciidoctor_version.stdout != asciidoctor_version_expected
+      msg: "NodeJS Version Error: Expected {{ v_node_version }} | Found {{ installed_node_version.stdout }}"
+    when: installed_node_version.stdout != v_node_version
+  - name: Test npm version
+    fail:
+      msg: "NPM Version Error: Expected {{ npm_version }} | Found {{ installed_npm_version.stdout }}"
+    when: installed_npm_version.stdout != npm_version
+  - name: Test npx version
+    fail:
+      msg: "NPX Version Error: Expected {{ npx_version }} | Found {{ installed_npx_version.stdout }}"
+    when: installed_npx_version.stdout != npx_version
+  - name: Test yarn version
+    fail:
+      msg: "Yarn Version Error: Expected {{ yarn_version }} | Found {{ installed_yarn_version.stdout }}"
+    when: installed_yarn_version.stdout != yarn_version
+  - name: Test TypeScript Compiler version
+    fail:
+      msg: "TypeScript Compiler Version Error: Expected {{ typescript_version }} | Found {{ installed_tsc_version.stdout }}"
+    when: installed_tsc_version.stdout != typescript_version
 
   roles:
-  - role: andrewrothstein.pandoc
-    pandoc_ver: "{{ pandoc_version }}"
+  - role: grzegorznowak.nvm_node
+    nvm_install_script_version: "0.39.3"
+    nvm_node_version: "{{ node_version }}"
+    nvm_install_globally:
+    - name: yo
+      version: "{{ yo_version }}"
+    - name: generator-code
+      version: "{{ generator_code_version }}"
+    - name: typescript
+      version: "{{ typescript_version }}"
 
 -
   # install GPredict
   hosts: localhost
   connection: local
+  gather_facts: yes
+  tags:
+  - install_gpredict
+
+  vars:
+    gpredict_version: "2.3"
+    gpredict_version_to_install: "{{ gpredict_version }}-72-gc596101-3"
+
   tasks:
   - name: Install libtool
     apt:
@@ -715,43 +752,44 @@
     apt:
       name: libgoocanvas-2.0-dev
       update_cache: yes
-  - name: Extract GPredict source files
-    unarchive:
-      src: /home/kasm-default-profile/install_files/gpredict-2.2.1.tar.bz2
-      dest: /home/kasm-default-profile/install_files
-      remote_src: yes
-      creates: /home/kasm-default-profile/gpredict-2.2.1/README
-  - name: Build GPredict
-    shell:
-      cmd: ./configure && make > /tmp/gpredict_build_output.txt 2>&1 && make install
-      chdir: /home/kasm-default-profile/install_files/gpredict-2.2.1/
-      executable: /bin/bash
+  - name: install GPredict with apt
+    apt:
+      name: "gpredict={{ gpredict_version_to_install }}"
+      update_cache: yes
 
 -
-  # install GNU Radio Software with Apt
+  # install GNU Radio Software
   hosts: localhost
   connection: local
-  tasks:
-  - name: Add PPA repository for GNU Radio v3.8
-    shell: add-apt-repository ppa:gnuradio/gnuradio-releases-3.8
-  - name: Apt install GNU Radio v3.8 with Apt
-    apt:
-      name: gnuradio
-      update_cache: yes
+  tags: install_gnuradio
 
-  # install KiCad
-  hosts: localhost
-  connection: local
-  tags: install_kicad
+  vars:
+    gnuradio_version: "3.10.1.1"
+    gnuradio_version_to_install: "{{ gnuradio_version }}-2"
 
   tasks:
-  - name: Add PPA repository for KiCad 7.0
-    shell: add-apt-repository ppa:kicad/kicad-7.0-releases
-  - name: install KiCad with Apt
+  - name: install gnuradio dependencies # as per https://wiki.gnuradio.org/index.php?title=UbuntuInstall#Focal_Fossa_(20.04)_through_Kinetic_Kudu_(22.10)
     apt:
-      name: kicad
+      name: g++, libboost-all-dev, libgmp-dev, swig, python3-numpy, python3-mako, python3-sphinx, python3-lxml, doxygen, libfftw3-dev, libsdl1.2-dev, libgsl-dev, libqwt-qt5-dev, libqt5opengl5-dev, python3-pyqt5, liblog4cpp5-dev, libzmq3-dev, python3-yaml, python3-click, python3-click-plugins, python3-zmq, python3-scipy, python3-gi, python3-gi-cairo, gir1.2-gtk-3.0, libcodec2-dev, libgsm1-dev, libusb-1.0-0, libusb-1.0-0-dev, libudev-dev
       update_cache: yes
       install_recommends: yes
+  - name: Add PPA repository for GNU Radio (latest)
+    shell: add-apt-repository ppa:gnuradio/gnuradio-releases
+  - name: Install GNU Radio {{ gnuradio_version_to_install }} with Apt
+    apt:
+      name: gnuradio={{ gnuradio_version_to_install }}
+      update_cache: yes
+      install_recommends: yes
+  - name: Get GNU Radio version
+    shell: gnuradio-config-info -v
+    register: installed_gnuradio_version
+  - name: Display GNU Radio versions
+    debug:
+      msg: "GNU Radio = {{ installed_gnuradio_version.stdout }}"
+  - name: Test GNU Radio version
+    fail:
+      msg: "GNU Radio Version Error: Expected {{ gnuradio_version }} | Found {{ installed_gnuradio_version.stdout }}"
+    when: installed_gnuradio_version.stdout != gnuradio_version
 
 -
   # install sudo for the vs-code role below
@@ -776,7 +814,7 @@
   - name: Add dev user
     user:
       name: dev
-      uid: 1001
+      uid: 1002
 
 -
   # install the remainder of the tools
