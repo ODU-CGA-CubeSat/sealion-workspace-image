@@ -3,6 +3,7 @@
 mv ./kasm_user/_README ./_README
 rm -rf ./kasm_user/*
 rm -rf ./kasm_user/.*
+chmod -R 777 kasm_user
 mv ./_README ./kasm_user/_README
 
 if [ ! -r kasm_user/Desktop/Uploads ]; then
