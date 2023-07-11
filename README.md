@@ -1,5 +1,9 @@
 # SeaLion Workspace Image
 
+![Screenshot from 2023-07-10 22-00-18](https://github.com/ODU-CGA-CubeSat/sealion-workspace-image/assets/14095576/41ec9492-c924-40a5-a52d-85d20bca0d25)
+
+Credits to [Oregon Marine Reserves](https://www.flickr.com/photos/ormarinereserves/16698749045/in/photostream/) for sealion wallpaper [CC BY-NC 2.0](https://creativecommons.org/licenses/by-nc/2.0/).
+
 ## Introduction
 
 This repo provides an immutable infrastructure as code (iiac) workspace for systems architecture & development for the SeaLion CubeSat Mission.
