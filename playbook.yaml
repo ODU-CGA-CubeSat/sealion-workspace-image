@@ -490,6 +490,16 @@
   - name: Install fprime {{ fprime_version }} python packages & dependencies
     pip:
       requirements: https://raw.githubusercontent.com/nasa/fprime/v{{ fprime_version }}/requirements.txt
+  - name: Get fprime version
+    shell: pip freeze | grep fprime-tools | sed 's/=//g' | sed 's/-//g' | sed 's/[[:alpha:]|[:space:]]//g'
+    register: installed_fprime_version
+  - name: Display fprime versions
+    debug:
+      msg: "fprime = {{ installed_fprime_version.stdout }}"
+  - name: Test fprime version
+    fail:
+      msg: "fprime Version Error: Expected {{ fprime_version }} | Found {{ installed_fprime_version.stdout }}"
+    when: installed_fprime_version.stdout != fprime_version
 
 -
   # install KiCad
