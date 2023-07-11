@@ -18,11 +18,13 @@ Base image currently usest the [Ansible based template for KASM Ubuntu Focal Ima
 - [Keychain](https://www.funtoo.org/Keychain)
 - Firefox
 - [Pharo](https://pharo.org/)
-- [General Mission Analysis Tool](https://documentation.help/GMAT/)
-- [GNU Octave](https://octave.org/)
-- [Minicom](https://launchpad.net/ubuntu/+source/minicom/2.7.1-1.1)
-- [GNU Radio Software](https://www.gnuradio.org/)
-- [GPredict](http://gpredict.oz9aec.net/)
+- Space Mission Analysis & Design Tools
+    - [General Mission Analysis Tool](https://documentation.help/GMAT/)
+    - [GNU Octave](https://octave.org/)
+    - [Minicom](https://launchpad.net/ubuntu/+source/minicom/2.7.1-1.1)
+    - [GNU Radio Software](https://www.gnuradio.org/) 3.10.1.1
+        - [gr-satellites](https://github.com/daniestevez/gr-satellites) 4.4.0
+    - [GPredict](http://gpredict.oz9aec.net/)
 - Python Based Tools
     - Jupyter Lab
     - Juptyer Notebook
