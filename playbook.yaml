@@ -459,6 +459,9 @@
     - install_gs_avr_toolchain
     - install_doctools
 
+  vars:
+    fprime_version: "3.2.0"
+
   tasks:
   - name: Update OS to point python to python3
     apt:
@@ -484,9 +487,19 @@
         - linkml==1.3.14
         - linkml-owl==0.2.4
         - jinja2-cli==0.8.2
-  - name: Install fprime (v3.1.1) python packages & dependencies
+  - name: Install fprime {{ fprime_version }} python packages & dependencies
     pip:
-      requirements: https://raw.githubusercontent.com/nasa/fprime/v3.1.1/requirements.txt
+      requirements: https://raw.githubusercontent.com/nasa/fprime/v{{ fprime_version }}/requirements.txt
+  - name: Get fprime version
+    shell: pip freeze | grep fprime-tools | sed 's/=//g' | sed 's/-//g' | sed 's/[[:alpha:]|[:space:]]//g'
+    register: installed_fprime_version
+  - name: Display fprime versions
+    debug:
+      msg: "fprime = {{ installed_fprime_version.stdout }}"
+  - name: Test fprime version
+    fail:
+      msg: "fprime Version Error: Expected {{ fprime_version }} | Found {{ installed_fprime_version.stdout }}"
+    when: installed_fprime_version.stdout != fprime_version
 
 -
   # install KiCad
