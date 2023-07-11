@@ -479,6 +479,8 @@
     get_url:
       url: https://gist.githubusercontent.com/capsulecorplab/401ba2fe0857a328f2a626adbf078cc6/raw/b89a6234f0d620ff60bcfe37f95de197b8772377/.gitconfig
       dest: /home/kasm-default-profile/
+  - name: Create /etc/ssh/sshd_config file with AuthorizedKeysFil/home/kasm-user/.ssh/id_ed25519e set to /home/kasm-user/.ssh/id_ed25519
+    shell: echo "AuthorizedKeysFile /home/kasm-user/.ssh/id_ed25519" > /etc/ssh/sshd_config
 
 -
   # install Python packages with pip
