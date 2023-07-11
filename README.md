@@ -7,7 +7,7 @@ Credits to [Oregon Marine Reserves](https://www.flickr.com/photos/ormarinereserv
 ## Introduction
 
 This repo provides an immutable infrastructure as code (iiac) workspace for systems architecture & development for the SeaLion CubeSat Mission.
-Base image currently usest the [Ansible based template for KASM Ubuntu Focal Images](https://github.com/j-simmons-phd/kasm-core-focal-template) template provided by @j-simmons-phd.  The workspace is configured with the following software:
+Image currently uses an Ansible based template for [KASM Ubuntu Jammy Images](https://hub.docker.com/r/kasmweb/core-ubuntu-jammy).  The workspace is configured with the following software:
 
 - Utilities
     - git v2.41.0 with @capsulecorplab .gitconfig
