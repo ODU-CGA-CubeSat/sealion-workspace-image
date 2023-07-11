@@ -794,13 +794,23 @@
   - name: Get GNU Radio version
     shell: gnuradio-config-info -v
     register: installed_gnuradio_version
+  - name: Get gr-satellites version
+    shell: gr_satellites --version | grep gr_satellites | awk '{ print $2}' | sed 's/[[:alpha:]|[:space:]]//g'
+    register: installed_grsatellites_version
   - name: Display GNU Radio versions
     debug:
       msg: "GNU Radio = {{ installed_gnuradio_version.stdout }}"
+  - name: Display gr-satellites versions
+    debug:
+      msg: "gr-satellites = {{ installed_grsatellites_version.stdout }}"
   - name: Test GNU Radio version
     fail:
       msg: "GNU Radio Version Error: Expected {{ gnuradio_version }} | Found {{ installed_gnuradio_version.stdout }}"
     when: installed_gnuradio_version.stdout != gnuradio_version
+  - name: Test gr-satellites version
+    fail:
+      msg: "gr-satellites Version Error: Expected {{ grsatellites_version }} | Found {{ installed_grsatellites_version.stdout }}"
+    when: installed_grsatellites_version.stdout != grsatellites_version
 
 -
   # install sudo for the vs-code role below
