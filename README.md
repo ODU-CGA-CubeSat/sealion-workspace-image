@@ -60,7 +60,7 @@ Image currently uses an Ansible based template for [KASM Ubuntu Jammy Images](ht
 Notes:
 - It is recommended MacOS and Windows users download [Docker Desktop](https://www.docker.com/products/docker-desktop/)
 - It is recommended to allocate at least 16gb under docker image size in your docker settings (See https://stackoverflow.com/a/65333634/12076663)
-- WSL 2 users should run docker daemon with `sudo dockerd --iptables=true` (See https://github.com/docker/for-linux/issues/136)
+- WSL 2 users should run docker daemon with `sudo dockerd --iptables=true` (See https://stackoverflow.com/questions/40792765/docker-internet-connectivity-with-iptables-false)
 
 ## How to Use this Repo
 
