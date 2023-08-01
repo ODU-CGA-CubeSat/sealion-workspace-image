@@ -56,12 +56,12 @@
   hosts: localhost
   connection: local
   tags:
-  - install_doctools
-  - install_generator_plantuml
-  - install_generator_asciidoctor
-  - install_cross_compile_toolchain
-  - install_avr_build_tools
-  - install_gs_avr_toolchain
+    - install_doctools
+    - install_generator_plantuml
+    - install_generator_asciidoctor
+    - install_cross_compile_toolchain
+    - install_avr_build_tools
+    - install_gs_avr_toolchain
 
   tasks:
   - name: Install build-essential
@@ -112,8 +112,8 @@
   connection: local
   gather_facts: yes
   tags:
-  - install_generator_asciidoctor
-  - install_doctools
+    - install_generator_asciidoctor
+    - install_doctools
 
   vars:
 #    pandoc_version: "2.18"
