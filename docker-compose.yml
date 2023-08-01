@@ -2,7 +2,8 @@
 version: "3.7"
 services:
   kasm:
-    build: .
+    build:
+      dockerfile: Dockerfile
     image: ghcr.io/odu-cga-cubesat/sealion-workspace-image:v1.1.0
     ports:
       - "6901:6901"
