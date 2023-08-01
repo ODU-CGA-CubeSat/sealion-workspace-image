@@ -105,12 +105,12 @@
       name: libssl-dev
       update_cache: yes
 
-#-
-#  # Install doctools
-#  hosts: localhost
-#  connection: local
-#  tags: install_doctools
-#
+-
+  # Install doctools
+  hosts: localhost
+  connection: local
+  tags: install_doctools
+
 #  vars:
 #    pandoc_version: "2.18"
 #    texlive_version: "2021.20220204-1"
@@ -118,7 +118,7 @@
 #    asciidoctor_version: 2.0.17
 #    asciidoctor_version_expected: "{{ asciidoctor_version }}[.]"
 #
-#  tasks:
+  tasks:
 #  - name: Install Ruby
 #    apt:
 #      name: ruby-full
@@ -144,15 +144,14 @@
 #    apt:
 #      name: "texlive-full={{ texlive_version }}"
 #      update_cache: yes
-#    # https://mikefarah.gitbook.io/yq/
-#  - name: Install yq
-#    copy:
-#      src: /home/kasm-default-profile/install_files/yq
-#      dest: /usr/bin/yq
-#      remote_src: yes
-#      owner: root
-#      group: root
-#      mode: '0755'
+  - name: Install yq # https://mikefarah.gitbook.io/yq/
+    copy:
+      src: /home/kasm-default-profile/install_files/yq
+      dest: /usr/bin/yq
+      remote_src: yes
+      owner: root
+      group: root
+      mode: '0755'
 #  - name: Install pandoc-citeproc
 #    apt:
 #      name: pandoc-citeproc
