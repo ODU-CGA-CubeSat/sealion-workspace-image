@@ -486,6 +486,7 @@
         - argparse
         - setuptools
         - bikeshed
+        - cookiecutter>=1.4.0
         - rdflib==6.2.0
         - linkml==1.5.6
         - linkml-owl==0.2.4
