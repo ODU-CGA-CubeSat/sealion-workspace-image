@@ -256,12 +256,15 @@
   connection: local
   tags: install_42
 
+  vars:
+    42_release_date: "20240102"
+
   tasks:
   - name: Join parts of 42 zip file
-    shell: cat /home/kasm-default-profile/install_files/42_20230210.zip.part* > /home/kasm-default-profile/install_files/42_20230210.zip
+    shell: cat /home/kasm-default-profile/install_files/42_{{ 42_release_date }}.zip.part* > /home/kasm-default-profile/install_files/42_{{ 42_release_date }}.zip
   - name: Unzip 42
     unarchive:
-      src: /home/kasm-default-profile/install_files/42_20230210.zip
+      src: /home/kasm-default-profile/install_files/42_{{ 42_release_date }}.zip
       dest: /home/kasm-default-profile/install_files
       remote_src: yes
       creates: /home/kasm-default-profile/install_files/42/README.md
