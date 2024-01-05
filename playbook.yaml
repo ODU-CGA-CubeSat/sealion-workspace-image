@@ -269,13 +269,13 @@
   - name: Unzip 42
     unarchive:
       src: /home/kasm-default-profile/install_files/42_{{ fortytwo_release_date }}.zip
-      dest: /home/kasm-default-profile/install_files
+      dest: /opt
       remote_src: yes
-      creates: /home/kasm-default-profile/install_files/42/README.md
+      creates: /opt/42/README.md
   - name: Build 42
     shell:
       cmd: make 42 > /tmp/42_build_output.txt 2>&1
-      chdir: /home/kasm-default-profile/install_files/42
+      chdir: /opt/42
       executable: /bin/bash
 
 -
