@@ -505,15 +505,10 @@
     - install_oshw_tools
 
   vars:
-    kicad_version: "7.0.6"
+    kicad_version: "7.0.10"
     kicad_version_to_install: "{{ kicad_version }}~ubuntu22.04.1"
 
   tasks:
-  - name: Install apt-utils with Apt (no recommended installs)
-    apt:
-      name: apt-utils
-      update_cache: yes
-      install_recommends: no
   - name: Add PPA repository for KiCad 7.0
     shell: add-apt-repository ppa:kicad/kicad-7.0-releases
   - name: install KiCad {{ kicad_version }} with Apt
