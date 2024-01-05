@@ -455,6 +455,13 @@
       cmd: rm 42
       chdir: /opt/42
       executable: /bin/bash
+  - name: Recursively set 42 directory permissions to 0555
+    file:
+      path: /opt/42
+      owner: root
+      group: root
+      recurse: true
+      mode: '0555'
   - name: Create symbolic link for 42 in /usr/local/bin
     shell: ln -sv /opt/42/bin/42 /usr/local/bin
 
