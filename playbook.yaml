@@ -260,6 +260,10 @@
     fortytwo_release_date: "20240102"
 
   tasks:
+  - name: Install 42 dependencies with Apt
+    apt:
+      name: g++, freeglut3-dev, libgl-dev, libglfw3-dev
+      update_cache: yes
   - name: Join parts of 42 zip file
     shell: cat /home/kasm-default-profile/install_files/42_{{ fortytwo_release_date }}.zip.part* > /home/kasm-default-profile/install_files/42_{{ fortytwo_release_date }}.zip
   - name: Unzip 42
