@@ -29,6 +29,7 @@ Image currently uses an Ansible based template for [KASM Ubuntu Jammy Images](ht
     - [GNU Radio Software](https://www.gnuradio.org/) 3.10.1.1
         - [gr-satellites](https://github.com/daniestevez/gr-satellites) 4.4.0
     - [GPredict](http://gpredict.oz9aec.net/)
+    - [42](https://github.com/ericstoneking/42) 2024-01-02
 - Python Based Tools
     - Jupyter Lab
     - Juptyer Notebook
@@ -50,7 +51,7 @@ Image currently uses an Ansible based template for [KASM Ubuntu Jammy Images](ht
     - [PlantUML](https://marketplace.visualstudio.com/items?itemName=jebbs.plantuml)
     - [Python extension by Microsoft](https://marketplace.visualstudio.com/items?itemName=ms-python.python)
 - OSHW Design Tools
-    - [KiCAD](https://www.kicad.org/) 7.0.5
+    - [KiCAD](https://www.kicad.org/) 7.0.10
 
 ## Requirements
 
