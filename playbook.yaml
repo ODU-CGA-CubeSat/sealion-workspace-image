@@ -257,14 +257,14 @@
   tags: install_42
 
   vars:
-    42_release_date: "20240102"
+    fortytwo_release_date: "20240102"
 
   tasks:
   - name: Join parts of 42 zip file
-    shell: cat /home/kasm-default-profile/install_files/42_{{ 42_release_date }}.zip.part* > /home/kasm-default-profile/install_files/42_{{ 42_release_date }}.zip
+    shell: cat /home/kasm-default-profile/install_files/42_{{ fortytwo_release_date }}.zip.part* > /home/kasm-default-profile/install_files/42_{{ fortytwo_release_date }}.zip
   - name: Unzip 42
     unarchive:
-      src: /home/kasm-default-profile/install_files/42_{{ 42_release_date }}.zip
+      src: /home/kasm-default-profile/install_files/42_{{ fortytwo_release_date }}.zip
       dest: /home/kasm-default-profile/install_files
       remote_src: yes
       creates: /home/kasm-default-profile/install_files/42/README.md
