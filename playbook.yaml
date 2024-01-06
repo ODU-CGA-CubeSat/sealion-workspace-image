@@ -251,34 +251,6 @@
     shell: echo "[Desktop Entry]\nName=Pharo\nGenericName=Pharo\nExec=/home/kasm-user/pharolauncher/pharo-launcher\nIcon=/home/kasm-user/pharolauncher/icons/pharo-launcher.png\nTerminal=false\nType=Application\nStartupNotify=false\nCategories=Application;Development;" > ~/.local/share/applications/pharo.desktop
 
 -
-  # install 42 (Spacecraft simulation)
-  hosts: localhost
-  connection: local
-  tags: install_42
-
-  vars:
-    fortytwo_release_date: "20240102"
-
-  tasks:
-  - name: Install 42 dependencies with Apt
-    apt:
-      name: g++, freeglut3-dev, libgl-dev, libglfw3-dev
-      update_cache: yes
-  - name: Join parts of 42 zip file
-    shell: cat /home/kasm-default-profile/install_files/42_{{ fortytwo_release_date }}.zip.part* > /home/kasm-default-profile/install_files/42_{{ fortytwo_release_date }}.zip
-  - name: Unzip 42
-    unarchive:
-      src: /home/kasm-default-profile/install_files/42_{{ fortytwo_release_date }}.zip
-      dest: /opt
-      remote_src: yes
-      creates: /opt/42/README.md
-  - name: Build 42
-    shell:
-      cmd: make 42 > /tmp/42_build_output.txt 2>&1
-      chdir: /opt/42
-      executable: /bin/bash
-
--
   # install GMAT
   hosts: localhost
   connection: local
@@ -384,8 +356,9 @@
   hosts: localhost
   connection: local
   gather_facts: yes
-  tags: install_utilities
-
+  tags:
+    - install_utilities
+    - install_42
   vars:
     git_version: "2.43.0"
     git_version_to_install: "1:{{ git_version }}-0ppa1~ubuntu22.04.1"
@@ -442,6 +415,48 @@
       dest: /home/kasm-default-profile/
   - name: Create /etc/ssh/sshd_config file with AuthorizedKeysFil/home/kasm-user/.ssh/id_ed25519e set to /home/kasm-user/.ssh/id_ed25519
     shell: echo "AuthorizedKeysFile /home/kasm-user/.ssh/id_ed25519" > /etc/ssh/sshd_config
+
+-
+  # install 42 (Spacecraft simulation)
+  hosts: localhost
+  connection: local
+  tags: install_42
+
+  vars:
+    fortytwo_release_date: "20240102"
+
+  tasks:
+  - name: Install 42 dependencies with Apt
+    apt:
+      name: g++, freeglut3-dev, libgl-dev, libglfw3-dev
+      update_cache: yes
+  - name: Clone 42 git repo
+    shell:
+      cmd: git clone https://github.com/ericstoneking/42.git
+      chdir: /opt
+      executable: /bin/bash
+  - name: Create bin directory for 42
+    shell:
+      cmd: mkdir bin
+      chdir: /opt/42
+      executable: /bin/bash
+  - name: Build 42
+    shell:
+      cmd: make 42 > /tmp/42_build_output.txt 2>&1
+      chdir: /opt/42
+      executable: /bin/bash
+  - name: Copy 42 binary into bin/ directory
+    copy:
+      src: /opt/42/42
+      dest: /opt/42/bin
+      remote_src: yes
+  - name: Remove redundant 42 binary
+    shell:
+      cmd: rm 42
+      chdir: /opt/42
+      executable: /bin/bash
+  - name: Create symbolic link for 42 in /usr/local/bin
+    shell: ln -sv /opt/42/bin/42 /usr/local/bin
 
 -
   # install Python packages with pip
