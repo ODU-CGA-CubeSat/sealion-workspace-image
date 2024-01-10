@@ -423,7 +423,7 @@
   tags: install_42
 
   vars:
-    fortytwo_release_date: "20240102"
+    fortytwo_commit: "0019f2475f609de6d4a5b02ca9fe2e7b8893b391"
 
   tasks:
   - name: Install 42 dependencies with Apt
@@ -433,37 +433,23 @@
   - name: Clone 42 git repo
     shell:
       cmd: git clone https://github.com/ericstoneking/42.git
-      chdir: /opt
+      chdir: /home/kasm-default-profile/install_files
       executable: /bin/bash
-  - name: Create bin directory for 42
+  - name: Checkout {{ fortytwo_commit }} in 42 git repo
     shell:
-      cmd: mkdir bin
-      chdir: /opt/42
+      cmd: git checkout {{ fortytwo_commit }}
+      chdir: /home/kasm-default-profile/install_files/42
       executable: /bin/bash
   - name: Build 42
     shell:
       cmd: make 42 > /tmp/42_build_output.txt 2>&1
-      chdir: /opt/42
+      chdir: /home/kasm-default-profile/install_files/42
       executable: /bin/bash
-  - name: Copy 42 binary into bin/ directory
+  - name: Copy 42 binary into /usr/local/bin directory
     copy:
-      src: /opt/42/42
-      dest: /opt/42/bin
+      src: /home/kasm-default-profile/install_files/42/42
+      dest: /usr/local/bin
       remote_src: yes
-  - name: Remove redundant 42 binary
-    shell:
-      cmd: rm 42
-      chdir: /opt/42
-      executable: /bin/bash
-  - name: Recursively set 42 directory permissions to 0555
-    file:
-      path: /opt/42
-      owner: root
-      group: root
-      recurse: true
-      mode: '0555'
-  - name: Create symbolic link for 42 in /usr/local/bin
-    shell: ln -sv /opt/42/bin/42 /usr/local/bin
 
 -
   # install Python packages with pip
