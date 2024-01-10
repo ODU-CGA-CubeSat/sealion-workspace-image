@@ -450,6 +450,12 @@
       src: /home/kasm-default-profile/install_files/42/42
       dest: /usr/local/bin
       remote_src: yes
+  - name: Change 42 binary permissions to 0555
+    file:
+      path: /usr/local/bin/42
+      owner: root
+      group: root
+      mode: '0555'
 
 -
   # install Python packages with pip
