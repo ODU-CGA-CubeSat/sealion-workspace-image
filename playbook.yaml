@@ -62,6 +62,7 @@
   - install_cross_compile_toolchain
   - install_avr_build_tools
   - install_gs_avr_toolchain
+  - install_42
 
   tasks:
   - name: Install build-essential
@@ -69,27 +70,42 @@
       name: build-essential
       update_cache: yes
 
-#-
-#  # Install zlib
-#  hosts: localhost
-#  connection: local
-#  tags:
-#  - install_doctools
-#  - install_generator_plantuml
-#
-#  tasks:
-#  - name: Extract zlib v1.2.13 source from tarball
-#    unarchive:
-#      src: /home/kasm-default-profile/install_files/zlib-1.2.13.tar.gz
-#      dest: /home/kasm-default-profile/install_files
-#      remote_src: yes
-#      creates: /home/kasm-default-profile/install_files/zlib-1.2.13/README
-#  - name: Build zlib v1.2.13
-#    shell:
-#      cmd: ./configure && make > /tmp/zlib_build_output.txt 2>&1 && make install
-#      chdir: /home/kasm-default-profile/install_files/zlib-1.2.13/
-#      executable: /bin/bash
+-
+  # Install zlib
+  hosts: localhost
+  connection: local
+  tags:
+  - install_doctools
+  - install_generator_plantuml
 
+  tasks:
+  - name: Extract zlib v1.2.13 source from tarball
+    unarchive:
+      src: /home/kasm-default-profile/install_files/zlib-1.2.13.tar.gz
+      dest: /home/kasm-default-profile/install_files
+      remote_src: yes
+      creates: /home/kasm-default-profile/install_files/zlib-1.2.13/README
+  - name: Build zlib v1.2.13
+    shell:
+      cmd: ./configure && make > /tmp/zlib_build_output.txt 2>&1 && make install
+      chdir: /home/kasm-default-profile/install_files/zlib-1.2.13/
+      executable: /bin/bash
+
+-
+  # Install autoconf
+  hosts: localhost
+  connection: local
+  tags:
+  - install_doctools
+  - install_generator_plantuml
+  - install_gpredict
+  - install_42
+
+  tasks:
+  - name: Install autoconf
+    apt:
+      name: autoconf
+      update_cache: yes
 -
   # Install OpenSSL development package
   hosts: localhost
@@ -229,10 +245,8 @@
       src: /home/kasm-default-profile/install_files/PharoLauncher-linux-3.0.1-x64.zip
       dest: /home/kasm-default-profile/
       remote_src: yes
-  - name: Create local application folder for PharoLauncher
-    shell: mkdir -p /home/kasm-default-profile/.local/share/applications/
   - name: Configure PharoLauncher desktop shortcut
-    shell: echo "[Desktop Entry]\nName=Pharo\nGenericName=Pharo\nExec=/home/kasm-user/pharolauncher/pharo-launcher\nIcon=/home/kasm-user/pharolauncher/icons/pharo-launcher.png\nTerminal=false\nType=Application\nStartupNotify=false\nCategories=Application;Development;" > ~/.local/share/applications/pharo.desktop
+    shell: echo "[Desktop Entry]\nName=Pharo\nGenericName=Pharo\nExec=/home/kasm-user/pharolauncher/pharo-launcher\nIcon=/home/kasm-user/pharolauncher/icons/pharo-launcher.png\nTerminal=false\nType=Application\nStartupNotify=false\nCategories=Application;Development;" > /usr/share/applications/pharo.desktop
 
 -
   # install GMAT
@@ -255,10 +269,8 @@
       creates: /opt/GMAT/R2022a/README.txt
   - name: Delete GMAT tarball
     shell: rm /home/kasm-default-profile/gmat-ubuntu-x64-R2022a.tar.gz
-  - name: Create local application folder
-    shell: mkdir -p /home/kasm-default-profile/.local/share/applications/
   - name: Configure GMAT desktop shortcut
-    shell: echo "[Desktop Entry]\nName=GMAT\nGenericName=GMAT\nExec=/opt/GMAT/R2022a/bin/GMAT_Beta\nIcon=/opt/GMAT/R2022a/data/graphics/icons/GMATLogo.png\nTerminal=false\nType=Application\nStartupNotify=false\nCategories=Application;Education;" > ~/.local/share/applications/gmat.desktop
+    shell: echo "[Desktop Entry]\nName=GMAT\nGenericName=GMAT\nExec=/opt/GMAT/R2022a/bin/GMAT_Beta\nIcon=/opt/GMAT/R2022a/data/graphics/icons/GMATLogo.png\nTerminal=false\nType=Application\nStartupNotify=false\nCategories=Application;Education;" > /usr/share/applications/gmat.desktop
 
 -
   # install Octave
@@ -335,65 +347,14 @@
   - name: Prevent the use of shared memory
     shell: echo "enable-shm = false" >> /etc/pulse/client.conf
 
-#-
-#  # install PlantUML
-#  hosts: localhost
-#  connection: local
-#  gather_facts: yes
-#  tags:
-#    - install_generator_plantuml
-#    - install_doctools
-#
-#  vars:
-#    jdk_version: 2:1.11-72build2
-#    graphviz_version_expected: "dot - graphviz version 2.50.0 (20211204.2007)"
-#
-#  tasks:
-#  - name: Install JDK
-#    apt:
-#      name: "default-jdk={{ jdk_version }}"
-#      update_cache: yes
-#  - name: Get JDK Version
-#    shell: java --version | grep -m 1 -i openjdk
-#    register: installed_jdk_version
-#  - name: Install pre-reqs to build graphviz
-#    apt:
-#      name: libcairo2-dev, libexpat-dev, libfreetype-dev, libgd-dev, fontconfig-config, libglib2.0-dev, libgtk2.0-dev, libpng-dev, libsdl-pango-dev, libgts-bin, libgtk-3-dev, libgtkglext1-dev, glade, freeglut3-dev, autoconf, automake, bison, flex, ghostscript, libtool, pkg-config, swig
-#      update_cache: yes
-#  - name: Expand source files archive
-#    unarchive:
-#      src: /home/kasm-default-profile/install_files/graphviz-2.50.0.tar.gz
-#      dest: /home/kasm-default-profile/install_files/
-#      remote_src: yes
-#      creates: /home/kasm-default-profile/install_files/graphviz-2.50.0/README
-#  - name: Build graphviz
-#    shell:
-#      cmd: ./configure --enable-perl=no && make > /tmp/graphviz_build_output.txt 2>&1 && make install
-#      chdir: /home/kasm-default-profile/install_files/graphviz-2.50.0/
-#      executable: /bin/bash
-#  - name: Get graphviz version
-#    shell: dot -V
-#    register: installed_graphviz_version
-#  - name: install plantuml
-#    copy:
-#      src: /home/kasm-default-profile/install_files/plantuml.jar
-#      dest: /usr/local/bin/plantuml.jar
-#      remote_src: yes
-#  - name: Display JDK and GraphViz versions
-#    debug:
-#      msg: "JDK = {{ installed_jdk_version.stdout }} | graphviz = {{ installed_graphviz_version.stderr }}"
-#  - name: Test Graphviz version
-#    fail:
-#      msg: "Graphviz Version Error: Expected {{ graphviz_version_expected }} | Found {{ installed_graphviz_version.stderr }}"
-#    when: installed_graphviz_version.stderr != graphviz_version_expected
-
 -
   # install keychain, git, and @capsulecorplab .vimrc and .gitconfig
   hosts: localhost
   connection: local
   gather_facts: yes
-  tags: install_utilities
-
+  tags:
+    - install_utilities
+    - install_42
   vars:
     git_version: "2.43.0"
     git_version_to_install: "1:{{ git_version }}-0ppa1~ubuntu22.04.1"
@@ -450,6 +411,47 @@
       dest: /home/kasm-default-profile/
   - name: Create /etc/ssh/sshd_config file with AuthorizedKeysFil/home/kasm-user/.ssh/id_ed25519e set to /home/kasm-user/.ssh/id_ed25519
     shell: echo "AuthorizedKeysFile /home/kasm-user/.ssh/id_ed25519" > /etc/ssh/sshd_config
+
+-
+  # install 42 (Spacecraft simulation)
+  hosts: localhost
+  connection: local
+  tags: install_42
+
+  vars:
+    fortytwo_commit: "0019f2475f609de6d4a5b02ca9fe2e7b8893b391"
+
+  tasks:
+  - name: Install 42 dependencies with Apt
+    apt:
+      name: g++, freeglut3-dev, libgl-dev, libglfw3-dev
+      update_cache: yes
+  - name: Clone 42 git repo
+    shell:
+      cmd: git clone https://github.com/ericstoneking/42.git
+      chdir: /home/kasm-default-profile/install_files
+      executable: /bin/bash
+  - name: Checkout {{ fortytwo_commit }} in 42 git repo
+    shell:
+      cmd: git checkout {{ fortytwo_commit }}
+      chdir: /home/kasm-default-profile/install_files/42
+      executable: /bin/bash
+  - name: Build 42
+    shell:
+      cmd: make 42 > /tmp/42_build_output.txt 2>&1
+      chdir: /home/kasm-default-profile/install_files/42
+      executable: /bin/bash
+  - name: Copy 42 binary into /usr/local/bin directory
+    copy:
+      src: /home/kasm-default-profile/install_files/42/42
+      dest: /usr/local/bin
+      remote_src: yes
+  - name: Change 42 binary permissions to 0555
+    file:
+      path: /usr/local/bin/42
+      owner: root
+      group: root
+      mode: '0555'
 
 -
   # install Python packages with pip
@@ -518,15 +520,10 @@
     - install_oshw_tools
 
   vars:
-    kicad_version: "7.0.9"
+    kicad_version: "7.0.10"
     kicad_version_to_install: "{{ kicad_version }}~ubuntu22.04.1"
 
   tasks:
-  - name: Install apt-utils with Apt (no recommended installs)
-    apt:
-      name: apt-utils
-      update_cache: yes
-      install_recommends: no
   - name: Add PPA repository for KiCad 7.0
     shell: add-apt-repository ppa:kicad/kicad-7.0-releases
   - name: install KiCad {{ kicad_version }} with Apt
@@ -712,10 +709,6 @@
   - name: Install intltool
     apt:
       name: intltool
-      update_cache: yes
-  - name: Install autoconf
-    apt:
-      name: autoconf
       update_cache: yes
   - name: Install automake
     apt:
