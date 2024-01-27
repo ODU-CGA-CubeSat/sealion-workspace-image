@@ -464,9 +464,6 @@
     - install_gs_avr_toolchain
     - install_doctools
 
-  vars:
-    fprime_version: "3.2.0"
-
   tasks:
   - name: Update OS to point python to python3
     apt:
@@ -492,19 +489,55 @@
         - linkml==1.5.6
         - linkml-owl==0.2.4
         - jinja2-cli==0.8.2
-  - name: Install fprime {{ fprime_version }} python packages & dependencies
-    pip:
-      requirements: https://raw.githubusercontent.com/nasa/fprime/v{{ fprime_version }}/requirements.txt
-  - name: Get fprime version
-    shell: pip freeze | grep fprime-tools | sed 's/=//g' | sed 's/-//g' | sed 's/[[:alpha:]|[:space:]]//g'
-    register: installed_fprime_version
-  - name: Display fprime versions
+
+-
+  # install fprime tools
+  hosts: localhost
+  connection: local
+  gather_facts: yes
+  tags:
+    - install_fprime
+
+  vars:
+    fprime_workspace_image_version: v3.4.0-rc1.1.0
+
+  tasks:
+  - name: Get ansible version (in ansible)
+    shell:
+      cmd: ansible --version
+      executable: /bin/bash
+    register: installed_ansible_version
+  - name: Get ansible-playbook version (in ansible)
+    shell:
+      cmd: ansible-playbook --version
+      executable: /bin/bash
+    register: installed_ansible_playbook_version
+  - name: Display ansible version
     debug:
-      msg: "fprime = {{ installed_fprime_version.stdout }}"
-  - name: Test fprime version
-    fail:
-      msg: "fprime Version Error: Expected {{ fprime_version }} | Found {{ installed_fprime_version.stdout }}"
-    when: installed_fprime_version.stdout != fprime_version
+      msg: ansible = {{ installed_ansible_version.stdout }}
+  - name: Display ansible-playbook version
+    debug:
+      msg: ansible = {{ installed_ansible_playbook_version.stdout }}
+  - name: Clone fprime-workspace-image
+    shell:
+      cmd: git clone https://github.com/fprime-community/fprime-workspace-image.git
+      chdir: /home/kasm-default-profile/install_files
+      executable: /bin/bash
+  - name: Checkout {{ fprime_workspace_image_version }} in fprime-workspace-image repo
+    shell:
+      cmd: git checkout {{ fprime_workspace_image_version }}
+      chdir: /home/kasm-default-profile/install_files/fprime-workspace-image
+      executable: /bin/bash
+  - name: Copy contents of fprime-workspace-image/install_files into install_files
+    shell:
+      cmd: cp -rf fprime-workspace-image/install_files/* .
+      chdir: /home/kasm-default-profile/install_files
+      executable: /bin/bash
+  - name: Install fprime tools with ansible-galaxy
+    shell:
+      cmd: ansible-galaxy install -r requirements.yaml && ansible-playbook -i,localhost playbook.yaml --tags "install_fprime_tools" && rm -f ./*.yaml
+      chdir: /home/kasm-default-profile/install_files/fprime-workspace-image
+      executable: /bin/bash
 
 -
   # install KiCad
