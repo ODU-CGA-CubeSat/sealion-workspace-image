@@ -21,7 +21,12 @@ Image currently uses an Ansible based template for [KASM Ubuntu Jammy Images](ht
     - [cmake v3.2](http://www.cmake.org/files/v3.2)
 - [Keychain](https://www.funtoo.org/Keychain)
 - Firefox
-- [Pharo](https://pharo.org/)
+- [Pharo Launcher](https://github.com/pharo-project/pharo-launcher) with following [https://pharo.org/web/](Pharo) images
+    - "RoassalPlayground" pre-loaded with
+        - [Roassal3](https://github.com/ObjectProfile/Roassal3) v1.01b
+        - [NeoCSV](https://github.com/svenvc/NeoCSV)
+        - [XMLParser](https://github.com/pharo-contributions/XML-XMLParser)
+        - [Roassal3Exporters](https://github://ObjectProfile/Roassal3Exporters) v1.0
 - Space Mission Analysis & Design Tools
     - [General Mission Analysis Tool](https://documentation.help/GMAT/)
     - [GNU Octave](https://octave.org/)
@@ -46,6 +51,9 @@ Image currently uses an Ansible based template for [KASM Ubuntu Jammy Images](ht
     - [Voilà](https://voila.readthedocs.io/en/stable/index.html)
     - [Pint](https://pint.readthedocs.io/en/stable/)
     - [LinkML](https://github.com/linkml/linkml)
+    - [pandas](https://pandas.pydata.org/)
+    - [seaborn](https://seaborn.pydata.org/)
+    - [black](https://github.com/psf/black)
 - VS Code with the following extensions (note, auto-updates are disabled)
     - [LaTeX Workshop](https://marketplace.visualstudio.com/items?itemName=James-Yu.latex-workshop)
     - [PlantUML](https://marketplace.visualstudio.com/items?itemName=jebbs.plantuml)
