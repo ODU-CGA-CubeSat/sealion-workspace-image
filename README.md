@@ -21,7 +21,7 @@ Image currently uses an Ansible based template for [KASM Ubuntu Jammy Images](ht
     - [cmake v3.2](http://www.cmake.org/files/v3.2)
 - [Keychain](https://www.funtoo.org/Keychain)
 - Firefox
-- [Pharo Launcher](https://github.com/pharo-project/pharo-launcher) with following [https://pharo.org/web/](Pharo) images
+- [Pharo Launcher](https://github.com/pharo-project/pharo-launcher) with following [Pharo](https://pharo.org/web/) images
     - "RoassalPlayground" pre-loaded with
         - [Roassal3](https://github.com/ObjectProfile/Roassal3) v1.01b
         - [NeoCSV](https://github.com/svenvc/NeoCSV)
