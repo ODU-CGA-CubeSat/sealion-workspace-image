@@ -37,7 +37,7 @@ Image currently uses an Ansible based template for [KASM Ubuntu Jammy Images](ht
     - Pint
 - Python 3.10 (part of the image template) with the following packages (not part of the image template)
     - pip
-    - [fprime]( 3.2.://github.com/nasa/fprime) 3.2.0
+    - [fprime]( 3.2.://github.com/nasa/fprime) v3.4.0
         - [fprime-tools](https://github.com/fprime-community/fprime-tools)
         - [fprime-gds](https://github.com/fprime-community/fprime-gds)
         - [fpp](https://github.com/fprime-community/fpp)
