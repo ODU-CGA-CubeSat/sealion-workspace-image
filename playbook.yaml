@@ -618,7 +618,7 @@
         - argparse
         - setuptools
         - rdflib==6.2.0
-        - linkml==1.5.6
+        - linkml==1.6.0
         - linkml-owl==0.2.4
         - jinja2-cli==0.8.2
         - black
