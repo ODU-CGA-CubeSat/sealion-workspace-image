@@ -939,6 +939,7 @@
             - ms-python.python
             - jebbs.plantuml
             - James-Yu.latex-workshop
+            - jet-propulsion-laboratory.fpp
           visual_studio_code_settings_overwrite: yes
           visual_studio_code_settings: {
             "extensions.ignoreRecommendations": true,
